@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 export default function Login() {
     const [email, setEmail] = useState<string>("");
@@ -10,8 +11,8 @@ export default function Login() {
     };
 
     return (
-        <div className="min-h-screen flex justify-center font-body">
-            <div>
+        <div className="min-h-screen flex justify-center font-body font-normal">
+            <div className="w-1/2">
                 <div>
                     <h2 className="mt-6 text-center text-3xl font-extrabold font-title">
                         ¡Inicia sesión en PagePals!
@@ -20,8 +21,8 @@ export default function Login() {
                 <form className='mt-8' onSubmit={handleSubmit}>
                     <input type='hidden' name='remember' defaultValue='true' />
                     <div className='rounded-md'>
-                        <div className="mb-8">
-                            <p className="text-sm font-medium text-left">
+                        <div className="mb-6">
+                            <p className="text-left">
                                 Correo electrónico
                             </p>
                             <input
@@ -38,8 +39,8 @@ export default function Login() {
                         </div>
                     </div>
                     <div className='rounded-md'>
-                        <div className="mb-8">
-                            <p className="text-sm font-medium text-left">
+                        <div className="mb-4">
+                            <p className="text-left">
                                 Contraseña
                             </p>
                             <input
@@ -55,14 +56,15 @@ export default function Login() {
                             />
                         </div>
                     </div>
+                    <p className="mb-8 text-left">¿Olvidaste tu contraseña? Haz <Link to='/signup' className="underline text-main-blue font-medium">click aquí</Link></p>
                     <div>
-                        <button type='submit' className='mb-2 w-full justify-center py-2 px-4 text-sm font-medium rounded-md text-white bg-main-blue hover:bg-dark-blue'>
+                        <button type='submit' className='mb-2 w-full justify-center py-2 px-4 rounded-md text-white bg-main-blue hover:bg-dark-blue'>
                         Iniciar sesión
                         </button>
                     </div>
                     <div>
-                    <button type='submit' className='w-full justify-center py-2 px-4 text-sm font-medium rounded-md text-black bg-white border border-black hover:bg-gray-100'>
-                        Crear cuenta
+                        <button type='submit' className='w-full justify-center py-2 px-4 rounded-md text-black bg-white border border-black hover:bg-gray-100'>
+                            Crear cuenta
                         </button>
                     </div>
                 </form>
