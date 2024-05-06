@@ -1,10 +1,12 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Login() {
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
 
+    let navigate = useNavigate();
+    
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         console.log("Email:", email, "Password:", password);
@@ -56,14 +58,14 @@ export default function Login() {
                             />
                         </div>
                     </div>
-                    <p className="mb-8 text-left">¿Olvidaste tu contraseña? Haz <Link to='/signup' className="underline text-main-blue font-medium">click aquí</Link></p>
+                    <p className="mb-8 text-left">¿Olvidaste tu contraseña? Haz <Link to='/forgot-password' className="underline text-main-blue font-medium">click aquí</Link></p>
                     <div>
                         <button type='submit' className='mb-2 w-full justify-center py-2 px-4 rounded-md text-white bg-main-blue hover:bg-dark-blue'>
                         Iniciar sesión
                         </button>
                     </div>
                     <div>
-                        <button type='submit' className='w-full justify-center py-2 px-4 rounded-md text-black bg-white border border-black hover:bg-gray-100'>
+                        <button onClick={() => navigate('/signup')} className='w-full justify-center py-2 px-4 rounded-md text-black bg-white border border-black hover:bg-gray-100'>
                             Crear cuenta
                         </button>
                     </div>

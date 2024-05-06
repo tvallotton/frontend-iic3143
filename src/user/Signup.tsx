@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function Signup() {
     const [email, setEmail] = useState<string>("");
@@ -7,6 +7,8 @@ export default function Signup() {
     const [firstName, setFirstName] = useState<string>("");
     const [lastName, setLastName] = useState<string>("");
     const [confirmPassword, setConfirmPassword] = useState<string>("");
+
+    let navigate = useNavigate();
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -122,7 +124,7 @@ export default function Signup() {
                         </button>
                     </div>
                     <div>
-                        <button type='submit' className='w-full justify-center py-2 px-4 rounded-md text-black bg-white border border-black hover:bg-gray-100'>
+                        <button onClick={() => navigate("/login")} className='w-full justify-center py-2 px-4 rounded-md text-black bg-white border border-black hover:bg-gray-100'>
                             ¡Ya tengo una cuenta!
                         </button>
                     </div>
