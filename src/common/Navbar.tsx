@@ -1,14 +1,14 @@
 import pagePalsLogo from "../assets/pagePals.png";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 export default function Navbar() {
 
     return (
-        <nav className="bg-white font-body">
+        <nav className="bg-white font-body px-12">
             <div className="w-full">
-                <div className="flex justify-between">
-                    <Link to={'/'}>
-                        <img src={pagePalsLogo} className="sm:h-24 w-auto h-12" alt="PagePals logo" />
+                <div className="flex justify-between items-center">
+                    <Link to={"/"}>
+                        <img src={pagePalsLogo} className="mt-3 sm:h-24 w-auto h-12" alt="PagePals logo" />
                     </Link>
                     <div>
                         <a href="/explore" className="py-5 px-3 text-gray-700 hover:text-gray-900">Explorar</a>
