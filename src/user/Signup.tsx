@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../common/Navbar";
+import Footer from "../common/Footer";
 
 export default function Signup() {
     const [email, setEmail] = useState<string>("");
@@ -134,6 +135,7 @@ export default function Signup() {
                     </form>
                 </div>
             </div>
+            <Footer/>
         </>
     );
 }
