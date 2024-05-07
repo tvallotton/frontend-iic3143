@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import Navbar from "../common/Navbar";
 
 export default function Login() {
     const [email, setEmail] = useState<string>("");
@@ -13,6 +14,8 @@ export default function Login() {
     };
 
     return (
+        <>
+        <Navbar/>
         <div className="min-h-screen flex justify-center font-body font-normal">
             <div className="w-1/2">
                 <div>
@@ -65,12 +68,13 @@ export default function Login() {
                         </button>
                     </div>
                     <div>
-                        <button onClick={() => navigate('/signup')} className='w-full justify-center py-2 px-4 rounded-md text-black bg-white border border-black hover:bg-gray-100'>
+                        <button onClick={() => navigate("/signup")} className='w-full justify-center py-2 px-4 rounded-md text-black bg-white border border-black hover:bg-gray-100'>
                             Crear cuenta
                         </button>
                     </div>
                 </form>
             </div>
         </div>
+        </>
     );
 }
