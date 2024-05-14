@@ -22,7 +22,7 @@ const PublicationDescription: React.FC = () => {
     useEffect(() => {
         axios.get("http://localhost:8080/publications/" + publicationId)
             .then((response) => {
-                setPublication(response.data.data);
+                setPublication(response.data);
             })
             .catch((error) => {
                 console.error(error);
