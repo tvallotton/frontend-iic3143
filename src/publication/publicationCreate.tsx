@@ -75,7 +75,7 @@ const PublicationForm: React.FC = () => {
             }));
         }
         setShowPopup(false);
-    }
+    };
 
     useEffect(() => {
         if (searchParamDebounced) {
@@ -109,7 +109,7 @@ const PublicationForm: React.FC = () => {
                             <div>
                                 <input onFocus={() => setShowPopup(searchParam !== "")} onBlur={() => setShowPopup(false)} type="text" name="searchBook" id="searchBook" placeholder={searchByISBN ? "ISBN" : "Título"}
                                     className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" 
-                                    onChange={({target}) => {setLoadingSearch(searchParam !== ""); setSearchParam(target.value)}} value={searchParam}/>
+                                    onChange={({target}) => {setLoadingSearch(searchParam !== ""); setSearchParam(target.value);}} value={searchParam}/>
                                 <BookOptions books={modalBooks} visible={showPopUp} onSelectBook={onSelectBook} loadingSearch={loadingSearch}/>
                             </div>
                             <div className="flex items-center">
