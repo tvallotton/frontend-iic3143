@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import Navbar from "../common/Navbar";
 import Footer from "../common/Footer";
@@ -7,10 +7,18 @@ import ButtonComponent from "../common/Button";
 
 interface Publication {
     title: string;
-    image: string;
-    price: number;
     author: string;
+    language: string;
+    genre: string;
+    state: string;
     description: string;
+    type: string;
+    price: number;
+    image: string;
+    booksOfInterest: string[];
+    bookId: string;
+    owner: string;
+    ownerId: string;
 }
 
 
@@ -41,7 +49,7 @@ const PublicationDescription: React.FC = () => {
                     <img
                         src={publication.image}
                         alt={publication.title}
-                        className="h-full object-cover mx-auto rounded-lg"
+                        className="h-3/4 object-cover mx-auto rounded-lg"
                         style={{ aspectRatio: "3 / 4" }}
                     />
                 </div>
@@ -50,14 +58,41 @@ const PublicationDescription: React.FC = () => {
                         <h2 className="mt-6 text-3xl font-extrabold font-title text-main-blue">
                             {publication.title}
                         </h2>
-                        <div className="mt-6">
-                            <p className="text-left text-2xl font-bold text-gray-800">
-                        ${publication.price.toLocaleString("es-ES", { minimumFractionDigits: 0 })}
-                            </p>
-                            <p className="text-left mt-4 text-gray-600">
+                        <p className="text-sm text-gray-400">
+                        Publicado por: <Link className="hover:text-main-blue hover:underline" to={`/profile/${publication.ownerId}`}>{publication.owner}</Link>
+                        </p>
+                        <div className="mt-2">
+                            {publication.price > 0 && (
+                                <p className="text-center md:text-left text-4xl">
+                                    ${publication.price.toLocaleString("es-ES", { minimumFractionDigits: 0 })}
+                                </p>
+                            )}
+                            <p className="text-left mt-2 text-gray-600">
                                 <span className="font-bold">Autor@:</span> {publication.author}
                             </p>
-                            <div className="text-left mt-4 text-gray-600" dangerouslySetInnerHTML={{ __html: publication.description.replace(/\n/g, "<br />") }} />
+                            <p className="text-left mt-2 text-gray-600">
+                                <span className="font-bold">Idioma:</span> {publication.language}
+                            </p>
+                            <p className="text-left mt-2 text-gray-600">
+                                <span className="font-bold">Género:</span> {publication.genre}
+                            </p>
+                            <p className="text-left mt-2 text-gray-600">
+                                <span className="font-bold">Estado:</span> {publication.state}
+                            </p>
+                            <p className="text-left mt-2 text-gray-600">
+                                <span className="font-bold">Tipo:</span> {publication.type}
+                            </p>
+                            <p className="text-left mt-2 text-gray-600">
+                                <a className="hover:text-main-blue hover:underline" href={`https://books.google.cl/books?id=${publication.bookId}`} target="_blank" rel="noopener noreferrer">
+                                    Ver libro en Google Books
+                                </a>
+                            </p>
+                            {publication.booksOfInterest.map((book, index) => (
+                                <p key={index} className="text-left mt-2 text-gray-600">
+                                    <span className="font-bold">{book}</span>
+                                </p>
+                            ))}
+                            <div className="text-left mt-6 text-gray-600 overflow-y-auto max-h-64" dangerouslySetInnerHTML={{ __html: publication.description.replace(/\n/g, "<br />") }} />
                         </div>
                     </div>
                     <ButtonComponent text="Contactar vendedor" onClick={() => console.log("Comprando...")} />
