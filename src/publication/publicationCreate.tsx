@@ -5,6 +5,9 @@ import axios from "axios";
 import BookOptions from "./components/bookOptions";
 import { useDebouncedValue } from "../hooks/useDebouncedValue";
 import type { Book } from "../publication/types";
+import FormTextInput from "./components/formTextInput";
+import PublishBookButton from "./components/publishBookButton";
+import PublishedSuccesfully from "./components/publishedSuccesfully";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -91,21 +94,14 @@ const PublicationForm: React.FC = () => {
         <>
             <Navbar />
             {posted ? (
-                <div className="flex items-center justify-center p-12">
-                    <div className="mx-auto w-full max-w-[550px] bg-white">
-                        <div className="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded-lg">
-                            <p className="text-lg font-semibold">Publicación Creada con éxito</p>
-                            <p>Gracias por publicar tu libro en PagePals</p>
-                        </div>
-                    </div>
-                </div>
+                <PublishedSuccesfully />
             ) : (
                 <div className="flex items-center justify-center p-12">
                     <div className="mx-auto w-full max-w-[550px] bg-white">
                         <label className="mb-3 block text-base font-medium text-[#07074D]">
                             Busca tu libro
                         </label>
-                        <div className="space-y-2">
+                        <div className="space-y-2 mb-5">
                             <div>
                                 <input onFocus={() => setShowPopup(searchParam !== "")} onBlur={() => setShowPopup(false)} type="text" name="searchBook" id="searchBook" placeholder={searchByISBN ? "ISBN" : "Título"}
                                     className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" 
@@ -118,44 +114,20 @@ const PublicationForm: React.FC = () => {
                             </div>
                         </div>
                         <form onSubmit={handleSubmit}>
-                            <div className="mb-5">
-                                <label className="mb-3 block text-base font-medium text-[#07074D]">
-                Título
-                                </label>
-                                <input type="text" name="title" id="title" placeholder="Quijote"
-                                    className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" 
-                                    onChange={handleChange} value={formData.title}/>
-                            </div>
-                            <div className="mb-5">
-                                <label className="mb-3 block text-base font-medium text-[#07074D]">
-                Precio
-                                </label>
-                                <input type="number" name="price" id="price" placeholder="$"
-                                    className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" 
-                                    onChange={handleChange} value={formData.price}/>
-                            </div>
-                            <div className="mb-5">
-                                <label className="mb-3 block text-base font-medium text-[#07074D]">
-                Autor
-                                </label>
-                                <input type="text" name="author" id="author" placeholder="Cervantes"
-                                    className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" 
-                                    onChange={handleChange} value={formData.author}/>
-                            </div>
-                            <div className="mb-5">
-                                <label className="mb-3 block text-base font-medium text-[#07074D]">
-                Descripción
-                                </label>
-                                <textarea name="description" id="description" placeholder="Historia de un hidalgo manchego..."
-                                    className="w-full h-40 rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" 
-                                    onChange={handleChange} value={formData.description}></textarea>
-                            </div>
-                            <div>
-                                <button
-                                    type="submit" className="bg-main-blue hover:bg-blue-700 text-white font-bold py-2 px-4 rounded self-start w-full">
-                Publicar
-                                </button>
-                            </div>
+
+                            <FormTextInput label="Título" value={formData.title} onChange={handleChange}
+                                placeholder="Quijote" type="text" name="title" id="title"/>
+
+                            <FormTextInput label="Precio" value={formData.price} onChange={handleChange}
+                                placeholder="$" type="number" name="price" id="price"/>
+
+                            <FormTextInput label="Autor" value={formData.author} onChange={handleChange}
+                                placeholder="Cervantes" type="text" name="author" id="author"/>
+
+                            <FormTextInput label="Descripción" value={formData.description} onChange={handleChange} 
+                                placeholder="Historia de un hidalgo manchego..." type="text" name="description" id="description"/>
+
+                            <PublishBookButton />
                         </form>
                     </div>
                 </div>
