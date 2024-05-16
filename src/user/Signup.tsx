@@ -2,19 +2,41 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../common/Navbar";
 import Footer from "../common/Footer";
+import axios from "axios";
+
+
+
+
+
 
 export default function Signup() {
+
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const [firstName, setFirstName] = useState<string>("");
     const [lastName, setLastName] = useState<string>("");
     const [confirmPassword, setConfirmPassword] = useState<string>("");
+    const navigate = useNavigate();
 
-    let navigate = useNavigate();
-
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        console.log("Email:", email, "Password:", password);
+        if (password != confirmPassword) {
+            alert("las contraseñas no coinciden");
+        }
+
+        const r = await axios.post("/user", {
+            email,
+            password,
+            name: firstName,
+            lastName
+        });
+
+        if (r.status == 201) {
+            navigate("/check-your-email");
+        }
+        else {
+            alert(r.data.message);
+        }
     };
 
     return (
@@ -135,7 +157,7 @@ export default function Signup() {
                     </form>
                 </div>
             </div>
-            <Footer/>
+            <Footer />
         </>
     );
 }
