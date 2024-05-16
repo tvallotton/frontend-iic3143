@@ -75,7 +75,7 @@ const PublicationForm: React.FC = () => {
     };
 
     const formatDescription = (description: string) => {
-        return ("### DESCRIPCIÓN ###\n\n" + description + "\n\n### COMENTARIOS ADICIONALES ###");
+        return ("### INTERCAMBIO POR ###" + "\n\n### DESCRIPCIÓN ###\n\n" + description + "\n\n### COMENTARIOS ADICIONALES ###");
     };
 
     const onSelectBook = (bookId: string) => {

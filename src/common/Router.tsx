@@ -13,7 +13,7 @@ function Routing() {
                 <Route path={"/login"} element={<Login />} />
                 <Route path={"/signup"} element={<Signup />} />
                 <Route path={"/publications/:publicationId"} element={<PublicationDescription />} />
-                <Route path={"/publications/create"} element={<PublicationCreate />} />
+                <Route path={"/publish"} element={<PublicationCreate />} />
             </Routes>
         </BrowserRouter>
     );

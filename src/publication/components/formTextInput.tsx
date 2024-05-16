@@ -23,7 +23,7 @@ const FormTextInput = ( { label, value, onChange, placeholder, type, name, id} :
                     {label}
                 </label>
                 <textarea placeholder={placeholder}
-                    className="w-full h-40 rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" 
+                    className="w-full h-60 rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" 
                     onChange={(e) => onChange(e)} value={value} name={name} id={id}/>
             </div>
     );
