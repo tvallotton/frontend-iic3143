@@ -21,14 +21,14 @@ interface Publication {
     ownerId: string;
 }
 
-
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
 const PublicationDescription: React.FC = () => {
     const [publication, setPublication] = useState<Publication | null>(null);
     const {publicationId} = useParams();
 
     useEffect(() => {
-        axios.get("http://localhost:8080/publications/" + publicationId)
+        axios.get(`${BACKEND_URL}/publications/` + publicationId)
             .then((response) => {
                 setPublication(response.data);
             })

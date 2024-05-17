@@ -20,6 +20,8 @@ interface Publication {
     ownerId: number;
 }
 
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+
 const PublicationsGrid: React.FC = () => {
     const [publications, setPublications] = useState<Publication[]>([]);
     const [search, setSearch] = useState(localStorage.getItem("search") || "");
@@ -27,7 +29,7 @@ const PublicationsGrid: React.FC = () => {
 
     const fetchPublications = useCallback(async () => {
         try {
-            const response = await fetch("http://localhost:8080/publications");
+            const response = await fetch(`${BACKEND_URL}/publications/`);
             const data: Publication[] = await response.json();
             setPublications(data);
             setFilteredPublications(data);
