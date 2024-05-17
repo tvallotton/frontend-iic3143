@@ -3,6 +3,7 @@ import App from "../App";
 import Login from "../user/Login";
 import Signup from "../user/Signup";
 import PublicationDescription from "../publication/publicationDescription";
+import PublicationsGrid from "../publication/publicationsGrid";
 import PublicationCreate from "../publication/publicationCreate";
 
 function Routing() {
@@ -13,7 +14,7 @@ function Routing() {
                 <Route path={"/login"} element={<Login />} />
                 <Route path={"/signup"} element={<Signup />} />
                 <Route path={"/publications/:publicationId"} element={<PublicationDescription />} />
-                <Route path={"/publish"} element={<PublicationCreate />} />
+                <Route path={"/find"} element={<PublicationsGrid />} />
             </Routes>
         </BrowserRouter>
     );
