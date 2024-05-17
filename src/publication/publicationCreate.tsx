@@ -22,7 +22,7 @@ const PublicationForm: React.FC = () => {
         description: "",
         type: "",
         price: "",
-        image: "https://images.cdn3.buscalibre.com/fit-in/360x360/ce/e6/cee6ef96dad70d3f599b953f0e50afc7.jpg",
+        image: "",
         booksOfInterest: [],
         bookId: "",
         ownerId: 1,
@@ -90,6 +90,7 @@ const PublicationForm: React.FC = () => {
                 bookId: book.id,
                 genre: book.volumeInfo.categories?.[0] || "",
                 language: book.volumeInfo.language,
+                image: book.volumeInfo.imageLinks?.thumbnail || "",
             }));
         }
         setShowPopup(false);
