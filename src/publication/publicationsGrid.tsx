@@ -3,6 +3,7 @@ import PublicationCard from "./publicationCard";
 import Navbar from "../common/Navbar";
 import Footer from "../common/Footer";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 interface Owner {
     name: string;
@@ -20,8 +21,6 @@ interface Publication {
     ownerId: number;
 }
 
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
-
 const PublicationsGrid: React.FC = () => {
     const [publications, setPublications] = useState<Publication[]>([]);
     const [search, setSearch] = useState(localStorage.getItem("search") || "");
@@ -29,8 +28,8 @@ const PublicationsGrid: React.FC = () => {
 
     const fetchPublications = useCallback(async () => {
         try {
-            const response = await fetch(`${BACKEND_URL}/publications/`);
-            const data: Publication[] = await response.json();
+            const response = await axios.get("/publications/");
+            const { data }: {data: Publication[]} = response;
             setPublications(data);
             setFilteredPublications(data);
         } catch (error) {

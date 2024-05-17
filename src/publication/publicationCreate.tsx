@@ -10,8 +10,6 @@ import PublishBookButton from "./components/publishBookButton";
 import PublishedSuccesfully from "./components/publishedSuccesfully";
 import TypeDropdown from "./components/typeDropdown";
 
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
-
 const PublicationForm: React.FC = () => {
     const [formData, setFormData] = useState({
         title: "",
@@ -46,7 +44,7 @@ const PublicationForm: React.FC = () => {
         e.preventDefault();
         console.log("Form data:", formData);
         try {
-            const response = await axios.post(`${BACKEND_URL}/publications`, formData);
+            const response = await axios.post("/publications", formData);
             console.log(response);
             setPosted(true);
         } catch (error) {
