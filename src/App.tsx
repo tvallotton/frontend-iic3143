@@ -24,7 +24,7 @@ function App() {
         }
     }
 
-    useEffect(() => { fetchUser(); }, [token]);
+    useEffect(() => { fetchUser(); }, [token, email]);
 
     return (
         <>
