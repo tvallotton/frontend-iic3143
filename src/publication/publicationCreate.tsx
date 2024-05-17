@@ -65,8 +65,8 @@ const PublicationForm: React.FC = () => {
     const buscarLibro = async () => {
         const query = searchByISBN ? `isbn:${searchParamDebounced}` : searchParamDebounced;
         try {
-            const response = await axios.get(`https://www.googleapis.com/books/v1/volumes?q=${query}`);
-            setBooks(response.data.items);
+            const response = await axios.get(`https://www.googleapis.com/books/v1/volumes?q=${query}`, {headers: {"authorization": ""}});
+            setBooks(response.data.items || []);
             setLoadingSearch(false);
             setShowPopup(true);
         } catch (error) {
