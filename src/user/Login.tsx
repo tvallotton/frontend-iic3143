@@ -2,21 +2,30 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../common/Navbar";
 import Footer from "../common/Footer";
+import axios from "axios";
 
 export default function Login() {
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
 
     let navigate = useNavigate();
-    
-    const handleSubmit = (e: React.FormEvent) => {
+
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        console.log("Email:", email, "Password:", password);
+
+        const r = await axios.post("/user/login", { email, password });
+        if (r.status == 200) {
+            console.log(r.data.authorization);
+            localStorage["token"] = r.data["authorization"];
+            navigate("/");
+        } else {
+            alert(r.data.message);
+        }
     };
 
     return (
         <>
-            <Navbar/>
+            <Navbar />
             <div className="min-h-screen flex justify-center font-body font-normal">
                 <div className="w-1/2">
                     <div>
@@ -65,7 +74,7 @@ export default function Login() {
                         <p className="mb-8 text-left">¿Olvidaste tu contraseña? Haz <Link to='/forgot-password' className="underline text-main-blue font-medium">click aquí</Link></p>
                         <div>
                             <button type='submit' className='mb-2 w-full justify-center py-2 px-4 rounded-md text-white bg-main-blue hover:bg-dark-blue'>
-                            Iniciar sesión
+                                Iniciar sesión
                             </button>
                         </div>
                         <div>
@@ -76,7 +85,7 @@ export default function Login() {
                     </form>
                 </div>
             </div>
-            <Footer/>
+            <Footer />
         </>
     );
 }
