@@ -146,8 +146,8 @@ const PublicationForm: React.FC = () => {
                             <FormTextInput label="Idioma" value={formData.language} onChange={handleChange}
                                 placeholder="Español" type="text" name="language" id="language"/>
 
-                            <FormTextInput label="Estado" value={formData.state} onChange={handleChange}
-                                placeholder="Detalles menores" type="text" name="state" id="state"/>
+                            <TypeDropdown label="Estado" value={formData.state} onChange={handleChange}
+                                options={["Nuevo", "Como Nuevo", "Usado", "Muy Usado"]} name="state" id="state"/>
 
                             <TypeDropdown label="Tipo" value={formData.type} onChange={handleChange}
                                 options={["Permuta", "Venta/Permuta", "Venta"]} name="type" id="type"/>
