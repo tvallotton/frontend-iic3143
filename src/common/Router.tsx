@@ -15,6 +15,7 @@ function Routing() {
                 <Route path={"/signup"} element={<Signup />} />
                 <Route path={"/publications/:publicationId"} element={<PublicationDescription />} />
                 <Route path={"/find"} element={<PublicationsGrid />} />
+                <Route path={"/publish"} element={<PublicationCreate />} />
             </Routes>
         </BrowserRouter>
     );
