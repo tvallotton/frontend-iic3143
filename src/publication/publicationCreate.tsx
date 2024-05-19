@@ -71,7 +71,7 @@ const PublicationForm: React.FC = () => {
     };
 
     const formatDescription = (description: string) => {
-        return ("### INTERCAMBIO POR ###" + "\n\n### DESCRIPCIÓN ###\n\n" + description + "\n\n### COMENTARIOS ADICIONALES ###");
+        return ("### INTERCAMBIO POR ###" + "\n\n### DESCRIPCIÓN ###\n\n" + (description || "Descripción no encontrada") + "\n\n### COMENTARIOS ADICIONALES ###");
     };
 
     const onSelectBook = (bookId: string) => {
@@ -136,13 +136,13 @@ const PublicationForm: React.FC = () => {
                                 placeholder="Historia de un hidalgo manchego..." type="text" name="description" id="description"/>
 
                             <FormTextInput disabled label="Géneros" value={formData.genres.join(", ")} onChange={handleChange}
-                                placeholder="Acción, Aventura, etc" type="text" name="genre" id="genre"/>
+                                placeholder="Acción, Aventura, etc" type="text" name="genres" id="genres"/>
 
                             <FormTextInput label="Idioma" value={formData.language} onChange={handleChange}
                                 placeholder="Español" type="text" name="language" id="language"/>
 
                             <TypeDropdown label="Estado" value={formData.bookState} onChange={handleChange}
-                                options={["Nuevo", "Como Nuevo", "Usado", "Muy Usado"]} name="state" id="state"/>
+                                options={["Nuevo", "Como Nuevo", "Usado", "Muy Usado"]} name="bookState" id="bookState"/>
 
                             <TypeDropdown label="Tipo" value={formData.type} onChange={handleChange}
                                 options={["Permuta", "Venta/Permuta", "Venta"]} name="type" id="type"/>
