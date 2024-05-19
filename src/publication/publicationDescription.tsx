@@ -127,8 +127,8 @@ const PublicationDescription: React.FC = () => {
                     )}
                     {currentUserId === publication.ownerId && (
                         <div className="mt-4">
-                            <ButtonComponent text="Update Publication" onClick={handleUpdate} />
-                            <ButtonComponent text="Delete Publication" onClick={handleDelete} color="bg-red-500" hoverColor="bg-red-300"/>
+                            <ButtonComponent text="Actualizar publicación" onClick={handleUpdate} />
+                            <ButtonComponent text="Eliminar publicación" onClick={handleDelete} color="bg-red-500" hoverColor="bg-red-300"/>
                         </div>
                     )}
                 </div>
