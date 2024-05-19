@@ -17,7 +17,7 @@ export default function Navbar() {
         }
     }
 
-    useEffect(() => { if (token) fetchUser(); }, [token, email]);
+    useEffect(() => { if (token) fetchUser(); else setEmail(""); }, [token, email]);
 
 
     return (
