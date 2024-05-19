@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../common/Navbar";
 import Footer from "../common/Footer";
@@ -22,6 +22,12 @@ export default function Login() {
             alert(r.data.message);
         }
     };
+
+    useEffect(() => {
+        if (localStorage["token"]) {
+            localStorage.removeItem("token");
+        }
+    }, []);
 
     return (
         <>
