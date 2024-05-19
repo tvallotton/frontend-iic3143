@@ -41,9 +41,6 @@ const PublicationDescription: React.FC = () => {
     useEffect(() => {
         axios.get("/user/me")
             .then((response) => {
-                console.log(response.data);
-                setCurrentUserId(response.data.user.id);
-                console.log(currentUserId);
             })
             .catch((error) => {
                 console.error(error);

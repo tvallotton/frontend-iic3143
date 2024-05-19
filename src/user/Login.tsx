@@ -16,7 +16,6 @@ export default function Login() {
         const r = await axios.post("/user/login", { email, password });
         if (r.status == 200) {
             localStorage["token"] = r.data["authorization"];
-            console.log(localStorage["token"]);
             navigate("/");
         } else {
             alert(r.data.message);
