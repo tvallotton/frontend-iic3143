@@ -99,7 +99,7 @@ const PublicationDescription: React.FC = () => {
                                 <span className="font-bold">Idioma:</span> {publication.language}
                             </p>
                             <p className="text-left mt-2 text-gray-600">
-                                <span className="font-bold">Géneros:</span> {publication.genres}
+                                <span className="font-bold">Géneros:</span> {publication.genres.join(", ")}
                             </p>
                             <p className="text-left mt-2 text-gray-600">
                                 <span className="font-bold">Estado:</span> {publication.bookState}
