@@ -33,7 +33,7 @@ const PublicationCard: React.FC<PublicationCardProps> = ({ publication }) => {
             <h2 className="text-lg font-bold text-gray-700">{truncate(publication.title, maxLength)}</h2>
             <p className="text-md text-gray-600">{truncate(publication.author, maxLength)}</p>
             <div className="flex justify-between w-full mt-2">
-                {publication.price !== undefined && publication.price > 0 && <p className="text-md text-gray-600">${publication.price}</p>}
+                {publication.type != "Permuta" && <p className="text-md text-gray-600">${publication.price}</p>}
                 <p className="text-sm text-gray-500">{truncate(publication.type, maxLength)}</p>
             </div>
             <div className="flex justify-between w-full mt-2">

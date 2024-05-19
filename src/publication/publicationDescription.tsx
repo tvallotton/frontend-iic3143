@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import Navbar from "../common/Navbar";
 import Footer from "../common/Footer";
@@ -18,12 +18,15 @@ interface Publication {
     booksOfInterest: string[];
     bookId: string;
     owner: string;
-    ownerId: string;
+    ownerId: number;
 }
 
 const PublicationDescription: React.FC = () => {
     const [publication, setPublication] = useState<Publication | null>(null);
     const {publicationId} = useParams();
+    const [currentUserId, setCurrentUserId] = useState(-1);
+
+    let navigate = useNavigate();
 
     useEffect(() => {
         axios.get("/publications/" + publicationId)
@@ -34,6 +37,32 @@ const PublicationDescription: React.FC = () => {
                 console.error(error);
             });
     }, [publicationId]);
+
+    useEffect(() => {
+        axios.get("/user/me")
+            .then((response) => {
+                console.log(response.data);
+                setCurrentUserId(response.data.user.id);
+                console.log(currentUserId);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }, []);
+
+    const handleUpdate = () => {
+        navigate(`/publications/${publicationId}/update`);
+    };
+
+    const handleDelete = () => {
+        axios.delete("/publications/" + publicationId)
+            .then(() => {
+                navigate("/");
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    };
 
     if (!publication) {
         return <div>Loading...</div>;
@@ -60,7 +89,7 @@ const PublicationDescription: React.FC = () => {
                         Publicado por: <Link className="hover:text-main-blue hover:underline" to={`/profile/${publication.ownerId}`}>{publication.owner}</Link>
                         </p>
                         <div className="mt-2">
-                            {publication.price > 0 && (
+                            {publication.type != "Permuta" && (
                                 <p className="text-center md:text-left text-4xl">
                                     ${publication.price.toLocaleString("es-ES", { minimumFractionDigits: 0 })}
                                 </p>
@@ -93,7 +122,15 @@ const PublicationDescription: React.FC = () => {
                             <div className="text-left mt-6 text-gray-600 overflow-y-auto max-h-64" dangerouslySetInnerHTML={{ __html: publication.description.replace(/\n/g, "<br />") }} />
                         </div>
                     </div>
-                    <ButtonComponent text="Contactar vendedor" onClick={() => console.log("Comprando...")} />
+                    {currentUserId !== publication.ownerId && (
+                        <ButtonComponent text="Contactar vendedor" onClick={() => console.log("Comprando...")} />
+                    )}
+                    {currentUserId === publication.ownerId && (
+                        <div className="mt-4">
+                            <ButtonComponent text="Update Publication" onClick={handleUpdate} />
+                            <ButtonComponent text="Delete Publication" onClick={handleDelete} color="bg-red-500" hoverColor="bg-red-300"/>
+                        </div>
+                    )}
                 </div>
             </div>
             <Footer />
