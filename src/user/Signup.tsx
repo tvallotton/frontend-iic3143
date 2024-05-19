@@ -42,7 +42,7 @@ export default function Signup() {
     return (
         <>
             <Navbar />
-            <div className="min-h-screen flex justify-center font-body font-normal">
+            <div className="min-h-screen flex justify-center font-body font-normal pt-32">
                 <div className="w-1/2">
                     <div>
                         <h2 className="mt-6 text-center text-3xl font-extrabold font-title">

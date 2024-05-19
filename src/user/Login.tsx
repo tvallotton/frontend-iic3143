@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../common/Navbar";
 import Footer from "../common/Footer";
@@ -23,10 +23,16 @@ export default function Login() {
         }
     };
 
+    useEffect(() => {
+        if (localStorage["token"]) {
+            localStorage.removeItem("token");
+        }
+    }, []);
+
     return (
         <>
             <Navbar />
-            <div className="min-h-screen flex justify-center font-body font-normal">
+            <div className="min-h-screen flex justify-center font-body font-normal pt-32">
                 <div className="w-1/2">
                     <div>
                         <h2 className="mt-6 text-center text-3xl font-extrabold font-title">

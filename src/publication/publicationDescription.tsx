@@ -71,7 +71,7 @@ const PublicationDescription: React.FC = () => {
     return (
         <>
             <Navbar />
-            <div className="min-h-screen flex flex-col md:flex-row justify-center font-body mx-4 md:mx-12">
+            <div className="min-h-screen flex flex-col md:flex-row justify-center font-body mx-4 md:mx-12 pt-32">
                 <div className="w-full md:w-3/4 mt-24 md:m-6">
                     <img
                         src={publication.image}
