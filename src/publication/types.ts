@@ -80,3 +80,17 @@ interface FormatAvailability {
 interface SearchInfo {
   textSnippet: string;
 }
+
+export interface Publication {
+  title: string;
+  author: string;
+  language: string;
+  genres: string[];
+  bookState: string;
+  description: string;
+  type: string;
+  price: number;
+  image: string;
+  booksOfInterest: string;
+  bookId: string;
+}
