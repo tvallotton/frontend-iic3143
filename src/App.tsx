@@ -9,7 +9,6 @@ axios.defaults.headers.common.Authorization = `Bearer ${localStorage["token"]}`;
 
 
 function App() {
-
     return <Landing />;
 }
 
