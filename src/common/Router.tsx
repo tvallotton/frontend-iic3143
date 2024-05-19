@@ -8,6 +8,7 @@ import CheckYourEmail from "../user/CheckYourEmail";
 import PublicationDescription from "../publication/publicationDescription";
 import PublicationsGrid from "../publication/publicationsGrid";
 import PublicationCreate from "../publication/publicationCreate";
+import PublicationUpdate from "../publication/publicationUpdate";
 
 function Routing() {
     return (
@@ -20,6 +21,7 @@ function Routing() {
                 <Route path={"/verified"} element={<Verified />} />
                 <Route path={"/check-your-email"} element={<CheckYourEmail />} />
                 <Route path={"/publications/:publicationId"} element={<PublicationDescription />} />
+                <Route path={"/publications/:publicationId/update"} element={<PublicationUpdate />} />
                 <Route path={"/find"} element={<PublicationsGrid />} />
                 <Route path={"/publish"} element={<PublicationCreate />} />
             </Routes>
