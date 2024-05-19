@@ -4,9 +4,11 @@ import Footer from "../common/Footer";
 export default function CheckYourEmail() {
     return (
         <>
-            <Navbar></Navbar>
-            Revisa tu correo electrónico
-            <Footer></Footer>
+            <Navbar />
+            <div className="min-h-screen flex justify-center font-body font-normal pt-32 mb-2">
+                Revisa tu correo electrónico
+            </div>
+            <Footer />
         </>
     );
 }

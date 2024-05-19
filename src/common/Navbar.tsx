@@ -12,16 +12,16 @@ export default function Navbar() {
 
     async function fetchUser() {
         const r = await axios.get("/user/me");
-        if (r.status == 0) {
+        if (r.status === 200) {
             setEmail(r.data.user?.email || "");
         }
     }
 
-    useEffect(() => { if (token) fetchUser(); }, [token, email]);
+    useEffect(() => { if (token) fetchUser(); else setEmail(""); }, [token, email]);
 
 
     return (
-        <nav className="bg-white font-body px-12 fixed w-screen h-28">
+        <nav className="bg-white font-body px-12 fixed w-screen h-28 shadow-md">
             <div className="w-full flex-row justify-end">
                 <div className="flex justify-between items-center">
                     <Link to={"/"}>

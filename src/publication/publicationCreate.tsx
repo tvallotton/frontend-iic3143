@@ -9,21 +9,21 @@ import FormTextInput from "./components/formTextInput";
 import PublishBookButton from "./components/publishBookButton";
 import PublishedSuccesfully from "./components/publishedSuccesfully";
 import TypeDropdown from "./components/typeDropdown";
+import type { Publication } from "./types";
 
 const PublicationForm: React.FC = () => {
-    const [formData, setFormData] = useState({
+    const [formData, setFormData] = useState<Publication>({
         title: "",
         author: "",
         language: "",
-        genre: "",
-        state: "",
+        genres: [],
+        bookState: "Nuevo",
         description: "",
-        type: "",
-        price: "",
+        type: "Venta/Permuta",
+        price: 0,
         image: "",
-        booksOfInterest: [],
+        booksOfInterest: "",
         bookId: "",
-        ownerId: 1,
     });
     const [posted, setPosted] = useState(false);
     const [searchByISBN, setSearchByISBN] = useState(false);
@@ -42,10 +42,8 @@ const PublicationForm: React.FC = () => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        console.log("Form data:", formData);
         try {
-            const response = await axios.post("/publications", formData);
-            console.log(response);
+            await axios.post("/publications", formData);
             setPosted(true);
         } catch (error) {
             console.error("Error creating publication:", error);
@@ -77,7 +75,6 @@ const PublicationForm: React.FC = () => {
     };
 
     const onSelectBook = (bookId: string) => {
-        console.log("Selected book:", bookId);
         const book = books.find((book) => book.id === bookId);
         if (book) {
             setFormData((previous) => ({
@@ -86,7 +83,7 @@ const PublicationForm: React.FC = () => {
                 author: book.volumeInfo.authors[0],
                 description: formatDescription(book.volumeInfo.description),
                 bookId: book.id,
-                genre: book.volumeInfo.categories?.[0] || "",
+                genres: book.volumeInfo.categories || "",
                 language: book.volumeInfo.language,
                 image: book.volumeInfo.imageLinks?.thumbnail || "",
             }));
@@ -130,21 +127,21 @@ const PublicationForm: React.FC = () => {
                         <form onSubmit={handleSubmit}>
 
                             <FormTextInput label="Título" value={formData.title} onChange={handleChange}
-                                placeholder="Quijote" type="text" name="title" id="title"/>
+                                placeholder="Quijote" type="text" name="title" id="title" disabled/>
 
                             <FormTextInput label="Autor" value={formData.author} onChange={handleChange}
-                                placeholder="Cervantes" type="text" name="author" id="author"/>
+                                placeholder="Cervantes" type="text" name="author" id="author" disabled/>
 
                             <FormTextInput label="Descripción" value={formData.description} onChange={handleChange}
                                 placeholder="Historia de un hidalgo manchego..." type="text" name="description" id="description"/>
 
-                            <FormTextInput label="Género" value={formData.genre} onChange={handleChange}
-                                placeholder="Novela" type="text" name="genre" id="genre"/>
+                            <FormTextInput disabled label="Géneros" value={formData.genres.join(", ")} onChange={handleChange}
+                                placeholder="Acción, Aventura, etc" type="text" name="genre" id="genre"/>
 
                             <FormTextInput label="Idioma" value={formData.language} onChange={handleChange}
                                 placeholder="Español" type="text" name="language" id="language"/>
 
-                            <TypeDropdown label="Estado" value={formData.state} onChange={handleChange}
+                            <TypeDropdown label="Estado" value={formData.bookState} onChange={handleChange}
                                 options={["Nuevo", "Como Nuevo", "Usado", "Muy Usado"]} name="state" id="state"/>
 
                             <TypeDropdown label="Tipo" value={formData.type} onChange={handleChange}
