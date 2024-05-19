@@ -1,24 +1,8 @@
 import { Link } from "react-router-dom";
-
-interface Owner {
-    name: string;
-}
-
-interface Publication {
-    id: number;
-    image: string;
-    title: string;
-    author: string;
-    price?: number;
-    genres: string[];
-    type: string;
-    owner: Owner;
-    bookState: string;
-    ownerId: number;
-}
+import { type PublicationFromBackend } from "./types";
 
 interface PublicationCardProps {
-    publication: Publication;
+    publication: PublicationFromBackend;
 }
 
 const PublicationCard: React.FC<PublicationCardProps> = ({ publication }) => {
