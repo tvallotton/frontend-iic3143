@@ -4,11 +4,6 @@ import Navbar from "../common/Navbar";
 import Footer from "../common/Footer";
 import axios from "axios";
 
-
-
-
-
-
 export default function Signup() {
 
     const [email, setEmail] = useState<string>("");
@@ -16,12 +11,34 @@ export default function Signup() {
     const [firstName, setFirstName] = useState<string>("");
     const [lastName, setLastName] = useState<string>("");
     const [confirmPassword, setConfirmPassword] = useState<string>("");
+    const [birthdate, setBirthdate] = useState("");
+    const [validationMessage, setValidationMessage] = useState("");
     const navigate = useNavigate();
+
+    const calculateAge = (birthdate: string) => {
+        const birthDate = new Date(birthdate);
+        const today = new Date();
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const m = today.getMonth() - birthDate.getMonth();
+        if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+            age--;
+        }
+        return age;
+    };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (password != confirmPassword) {
             alert("las contraseñas no coinciden");
+        }
+
+        // Calculate age
+        const age = calculateAge(birthdate);
+
+        // Check if age is less than 18
+        if (age < 18) {
+            alert("Debes tener al menos 18 años para registrarte.");
+            return;
         }
 
         const r = await axios.post("/user", {
@@ -39,10 +56,20 @@ export default function Signup() {
         }
     };
 
+    const validateBirthdate = (birthdate: string) => {
+        const age = calculateAge(birthdate);
+
+        if (age < 18) {
+            setValidationMessage("Debes tener al menos 18 años para registrarte.");
+        } else {
+            setValidationMessage("");
+        }
+    };
+
     return (
         <>
             <Navbar />
-            <div className="min-h-screen flex justify-center font-body font-normal pt-32">
+            <div className="min-h-screen flex justify-center font-body font-normal pt-32 mb-2">
                 <div className="w-1/2">
                     <div>
                         <h2 className="mt-6 text-center text-3xl font-extrabold font-title">
@@ -142,6 +169,26 @@ export default function Signup() {
                                     value={confirmPassword}
                                     onChange={(e) => setConfirmPassword(e.target.value)}
                                 />
+                            </div>
+                        </div>
+                        <div className='rounded-md'>
+                            <div className="mb-6">
+                                <p className="text-left">
+                                    Fecha de nacimiento
+                                </p>
+                                <input
+                                    id='birthdate'
+                                    name='birthdate'
+                                    type='date'
+                                    required
+                                    className='w-full px-3 py-2 border border-gray-300 placeholder-gray-300 text-gray-900 rounded focus:outline-none focus:border-dark-blue sm:text-sm'
+                                    value={birthdate}
+                                    onChange={(e) => {
+                                        setBirthdate(e.target.value);
+                                        validateBirthdate(e.target.value);
+                                    }}
+                                />
+                                <p className="text-red-500">{validationMessage}</p>
                             </div>
                         </div>
                         <div>
