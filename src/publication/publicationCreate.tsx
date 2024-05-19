@@ -9,10 +9,10 @@ import FormTextInput from "./components/formTextInput";
 import PublishBookButton from "./components/publishBookButton";
 import PublishedSuccesfully from "./components/publishedSuccesfully";
 import TypeDropdown from "./components/typeDropdown";
-import type { Publication } from "./types";
+import type { PublicationFormParams } from "./types";
 
 const PublicationForm: React.FC = () => {
-    const [formData, setFormData] = useState<Publication>({
+    const [formData, setFormData] = useState<PublicationFormParams>({
         title: "",
         author: "",
         language: "",

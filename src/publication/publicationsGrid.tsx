@@ -4,32 +4,20 @@ import Navbar from "../common/Navbar";
 import Footer from "../common/Footer";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { type PublicationFromBackend } from "./types";
 
-interface Owner {
-    name: string;
-}
 
-export interface Publication {
-    id: number;
-    image: string;
-    title: string;
-    author: string;
-    price?: number;
-    type: string;
-    owner: Owner;
-    state: string;
-    ownerId: number;
-}
+
 
 const PublicationsGrid: React.FC = () => {
-    const [publications, setPublications] = useState<Publication[]>([]);
+    const [publications, setPublications] = useState<PublicationFromBackend[]>([]);
     const [search, setSearch] = useState(localStorage.getItem("search") || "");
-    const [filteredPublications, setFilteredPublications] = useState<Publication[]>([]);
+    const [filteredPublications, setFilteredPublications] = useState<PublicationFromBackend[]>([]);
 
     const fetchPublications = useCallback(async () => {
         try {
             const response = await axios.get("/publications/");
-            const { data }: { data: Publication[] } = response;
+            const { data }: { data: PublicationFromBackend[] } = response;
             setPublications(data);
             setFilteredPublications(data);
         } catch (error) {
@@ -68,7 +56,7 @@ const PublicationsGrid: React.FC = () => {
                     </div>
                 </div>
                 <div className="flex flex-wrap justify-center p-4">
-                    {filteredPublications.map((publication: Publication) => (
+                    {filteredPublications.map((publication: PublicationFromBackend) => (
                         <Link to={`/publications/${publication.id}`} key={publication.id} className="m-2">
                             <PublicationCard publication={publication} />
                         </Link>

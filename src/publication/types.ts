@@ -81,7 +81,7 @@ interface SearchInfo {
   textSnippet: string;
 }
 
-export interface Publication {
+export interface PublicationFormParams {
   title: string;
   author: string;
   language: string;
@@ -94,3 +94,15 @@ export interface Publication {
   booksOfInterest: string;
   bookId: string;
 }
+
+interface Owner {
+  name: string;
+}
+export interface PublicationFromBackend  extends PublicationFormParams {
+  id: number;
+  owner: Owner;
+  ownerId: number;
+}
+
+
+

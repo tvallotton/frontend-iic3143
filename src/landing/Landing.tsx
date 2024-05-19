@@ -6,7 +6,7 @@ import libraryImage from "../assets/libreria.avif";
 import genreImage from "../assets/genre.png";
 import Carousel from "./components/Carousel";
 import type { CarouselItem } from "./components/Carousel";
-import type { Publication } from "../publication/publicationsGrid";
+import type { PublicationFromBackend } from "../publication/types";
 
 import axios from "axios";
 import { Link } from "react-router-dom";
@@ -46,7 +46,7 @@ const genres = [
 
 
 export default function Landing() {
-    const [publications, setPublications] = useState<Publication[]>([]);
+    const [publications, setPublications] = useState<PublicationFromBackend[]>([]);
     const carouselPublicationItems = useMemo(() => publications.map((publication) => ({
         title: publication.title,
         description: publication.author,
@@ -57,7 +57,7 @@ export default function Landing() {
     const fetchPublications = useCallback(async () => {
         try {
             const response = await axios.get("/publications/");
-            const { data }: { data: Publication[] } = response;
+            const { data }: { data: PublicationFromBackend[] } = response;
             setPublications(data.slice(0, 5));
         } catch (error) {
             console.error("Error fetching publications:", error);
