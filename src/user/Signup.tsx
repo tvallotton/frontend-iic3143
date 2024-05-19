@@ -7,6 +7,7 @@ import axios from "axios";
 export default function Signup() {
 
     const [email, setEmail] = useState<string>("");
+    const [confirmEmail, setConfirmEmail] = useState<string>(""); // New state variable for confirmation email
     const [password, setPassword] = useState<string>("");
     const [firstName, setFirstName] = useState<string>("");
     const [lastName, setLastName] = useState<string>("");
@@ -30,6 +31,11 @@ export default function Signup() {
         e.preventDefault();
         if (password != confirmPassword) {
             alert("las contraseñas no coinciden");
+        }
+
+        if (email != confirmEmail) { // Check if email and confirmation email match
+            alert("Los correos electrónicos no coinciden");
+            return;
         }
 
         // Calculate age
@@ -98,6 +104,22 @@ export default function Signup() {
                                     onChange={(e) => setEmail(e.target.value)}
                                 />
                             </div>
+                            <div className="mb-6">
+                                <p className="text-left">
+                                    Confirmar correo electrónico
+                                </p>
+                                <input
+                                    id='confirmEmail'
+                                    name='confirmEmail'
+                                    type='email'
+                                    autoComplete='email'
+                                    required
+                                    className='w-full px-3 py-2 border border-gray-300 placeholder-gray-300 text-gray-900 rounded focus:outline-none focus:border-dark-blue sm:text-sm'
+                                    placeholder='ejemplo@gmail.com'
+                                    value={confirmEmail}
+                                    onChange={(e) => setConfirmEmail(e.target.value)}
+                                />
+                            </div>
                         </div>
                         <div className='rounded-md'>
                             <div className="mb-6">
@@ -141,7 +163,7 @@ export default function Signup() {
                                     Contraseña
                                 </p>
                                 <input
-                                    id='pasword'
+                                    id='password'
                                     name='password'
                                     type='password'
                                     autoComplete='password'
@@ -159,8 +181,8 @@ export default function Signup() {
                                     Confirmar contraseña
                                 </p>
                                 <input
-                                    id='pasword'
-                                    name='password'
+                                    id='passwordConfirmation'
+                                    name='passwordConfirmation'
                                     type='password'
                                     autoComplete='password'
                                     required
