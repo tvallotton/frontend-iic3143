@@ -17,7 +17,7 @@ export default function Navbar() {
         }
     }
 
-    useEffect(() => { fetchUser(); }, [token, email]);
+    useEffect(() => { if (token) fetchUser(); }, [token, email]);
 
 
     return (
@@ -28,9 +28,8 @@ export default function Navbar() {
                         <img src={pagePalsLogo} className="mt-3 sm:h-24 w-auto h-12" alt="PagePals logo" />
                     </Link>
                     <div>
-                        <a href="/explore" className="py-5 px-3 text-gray-700 hover:text-gray-900">Explorar</a>
-                        <a href="/find" className="py-5 px-3 text-gray-700 hover:text-gray-900">Buscar</a>
-                        <a href="/publish" className="py-5 px-3 text-gray-700 hover:text-gray-900">Publicar</a>
+                        <a href="/find" className="py-5 px-3 text-gray-700 hover:text-gray-900">Explorar</a>
+                        {email && <a href="/publish" className="py-5 px-3 text-gray-700 hover:text-gray-900">Publicar</a>}
                         <a href="/login" className="py-5 px-3 text-gray-700 hover:text-gray-900">{!email ? "Iniciar Sesión" : "Cerrar Sesión"}</a>
                     </div>
                 </div>

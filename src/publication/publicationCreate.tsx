@@ -110,7 +110,7 @@ const PublicationForm: React.FC = () => {
             {posted ? (
                 <PublishedSuccesfully />
             ) : (
-                <div className="flex items-center justify-center p-12">
+                <div className="flex items-center justify-center p-12 pt-32">
                     <div className="mx-auto w-full max-w-[550px] bg-white">
                         <label className="mb-3 block text-base font-medium text-[#07074D]">
                             Busca tu libro
@@ -118,7 +118,7 @@ const PublicationForm: React.FC = () => {
                         <div className="space-y-2 mb-5">
                             <div>
                                 <input onFocus={() => setShowPopup(searchParam !== "")} onBlur={() => setShowPopup(false)} type="text" name="searchBook" id="searchBook" placeholder={searchByISBN ? "ISBN" : "Título"}
-                                    className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" 
+                                    className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
                                     onChange={({target}) => {setLoadingSearch(searchParam !== ""); setSearchParam(target.value);}} value={searchParam}/>
                                 <BookOptions books={modalBooks} visible={showPopUp} onSelectBook={onSelectBook} loadingSearch={loadingSearch}/>
                             </div>
@@ -135,7 +135,7 @@ const PublicationForm: React.FC = () => {
                             <FormTextInput label="Autor" value={formData.author} onChange={handleChange}
                                 placeholder="Cervantes" type="text" name="author" id="author"/>
 
-                            <FormTextInput label="Descripción" value={formData.description} onChange={handleChange} 
+                            <FormTextInput label="Descripción" value={formData.description} onChange={handleChange}
                                 placeholder="Historia de un hidalgo manchego..." type="text" name="description" id="description"/>
 
                             <FormTextInput label="Género" value={formData.genre} onChange={handleChange}
