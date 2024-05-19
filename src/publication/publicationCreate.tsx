@@ -42,10 +42,8 @@ const PublicationForm: React.FC = () => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        console.log("Form data:", formData);
         try {
-            const response = await axios.post("/publications", formData);
-            console.log(response);
+            await axios.post("/publications", formData);
             setPosted(true);
         } catch (error) {
             console.error("Error creating publication:", error);
@@ -77,7 +75,6 @@ const PublicationForm: React.FC = () => {
     };
 
     const onSelectBook = (bookId: string) => {
-        console.log("Selected book:", bookId);
         const book = books.find((book) => book.id === bookId);
         if (book) {
             setFormData((previous) => ({
@@ -130,10 +127,10 @@ const PublicationForm: React.FC = () => {
                         <form onSubmit={handleSubmit}>
 
                             <FormTextInput label="Título" value={formData.title} onChange={handleChange}
-                                placeholder="Quijote" type="text" name="title" id="title"/>
+                                placeholder="Quijote" type="text" name="title" id="title" disabled/>
 
                             <FormTextInput label="Autor" value={formData.author} onChange={handleChange}
-                                placeholder="Cervantes" type="text" name="author" id="author"/>
+                                placeholder="Cervantes" type="text" name="author" id="author" disabled/>
 
                             <FormTextInput label="Descripción" value={formData.description} onChange={handleChange}
                                 placeholder="Historia de un hidalgo manchego..." type="text" name="description" id="description"/>
