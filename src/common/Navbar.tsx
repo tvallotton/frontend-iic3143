@@ -12,7 +12,7 @@ export default function Navbar() {
 
     async function fetchUser() {
         const r = await axios.get("/user/me");
-        if (r.status == 0) {
+        if (r.status === 200) {
             setEmail(r.data.user?.email || "");
         }
     }

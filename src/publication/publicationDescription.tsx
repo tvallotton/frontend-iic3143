@@ -9,13 +9,13 @@ interface Publication {
     title: string;
     author: string;
     language: string;
-    genre: string;
-    state: string;
+    genres: string[];
+    bookState: string;
     description: string;
     type: string;
     price: number;
     image: string;
-    booksOfInterest: string[];
+    booksOfInterest: string;
     bookId: string;
     owner: string;
     ownerId: number;
@@ -41,9 +41,7 @@ const PublicationDescription: React.FC = () => {
     useEffect(() => {
         axios.get("/user/me")
             .then((response) => {
-                console.log(response.data);
                 setCurrentUserId(response.data.user.id);
-                console.log(currentUserId);
             })
             .catch((error) => {
                 console.error(error);
@@ -101,10 +99,10 @@ const PublicationDescription: React.FC = () => {
                                 <span className="font-bold">Idioma:</span> {publication.language}
                             </p>
                             <p className="text-left mt-2 text-gray-600">
-                                <span className="font-bold">Género:</span> {publication.genre}
+                                <span className="font-bold">Géneros:</span> {publication.genres}
                             </p>
                             <p className="text-left mt-2 text-gray-600">
-                                <span className="font-bold">Estado:</span> {publication.state}
+                                <span className="font-bold">Estado:</span> {publication.bookState}
                             </p>
                             <p className="text-left mt-2 text-gray-600">
                                 <span className="font-bold">Tipo:</span> {publication.type}
@@ -114,11 +112,11 @@ const PublicationDescription: React.FC = () => {
                                     Ver libro en Google Books
                                 </Link>
                             </p>
-                            {publication.booksOfInterest.map((book, index) => (
+                            {/* {publication.booksOfInterest.map((book, index) => (
                                 <p key={index} className="text-left mt-2 text-gray-600">
                                     <span className="font-bold">{book}</span>
                                 </p>
-                            ))}
+                            ))} */}
                             <div className="text-left mt-6 text-gray-600 overflow-y-auto max-h-64" dangerouslySetInnerHTML={{ __html: publication.description.replace(/\n/g, "<br />") }} />
                         </div>
                     </div>

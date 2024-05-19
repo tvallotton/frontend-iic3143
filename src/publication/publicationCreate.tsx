@@ -9,21 +9,21 @@ import FormTextInput from "./components/formTextInput";
 import PublishBookButton from "./components/publishBookButton";
 import PublishedSuccesfully from "./components/publishedSuccesfully";
 import TypeDropdown from "./components/typeDropdown";
+import type { Publication } from "./types";
 
 const PublicationForm: React.FC = () => {
-    const [formData, setFormData] = useState({
+    const [formData, setFormData] = useState<Publication>({
         title: "",
         author: "",
         language: "",
-        genre: "",
-        state: "",
+        genres: [],
+        bookState: "Nuevo",
         description: "",
-        type: "",
-        price: "",
+        type: "Venta/Permuta",
+        price: 0,
         image: "",
-        booksOfInterest: [],
+        booksOfInterest: "",
         bookId: "",
-        ownerId: 1,
     });
     const [posted, setPosted] = useState(false);
     const [searchByISBN, setSearchByISBN] = useState(false);
@@ -86,7 +86,7 @@ const PublicationForm: React.FC = () => {
                 author: book.volumeInfo.authors[0],
                 description: formatDescription(book.volumeInfo.description),
                 bookId: book.id,
-                genre: book.volumeInfo.categories?.[0] || "",
+                genres: book.volumeInfo.categories || "",
                 language: book.volumeInfo.language,
                 image: book.volumeInfo.imageLinks?.thumbnail || "",
             }));
@@ -138,13 +138,13 @@ const PublicationForm: React.FC = () => {
                             <FormTextInput label="Descripción" value={formData.description} onChange={handleChange}
                                 placeholder="Historia de un hidalgo manchego..." type="text" name="description" id="description"/>
 
-                            <FormTextInput label="Género" value={formData.genre} onChange={handleChange}
-                                placeholder="Novela" type="text" name="genre" id="genre"/>
+                            <FormTextInput disabled label="Géneros" value={formData.genres.join(", ")} onChange={handleChange}
+                                placeholder="Acción, Aventura, etc" type="text" name="genre" id="genre"/>
 
                             <FormTextInput label="Idioma" value={formData.language} onChange={handleChange}
                                 placeholder="Español" type="text" name="language" id="language"/>
 
-                            <TypeDropdown label="Estado" value={formData.state} onChange={handleChange}
+                            <TypeDropdown label="Estado" value={formData.bookState} onChange={handleChange}
                                 options={["Nuevo", "Como Nuevo", "Usado", "Muy Usado"]} name="state" id="state"/>
 
                             <TypeDropdown label="Tipo" value={formData.type} onChange={handleChange}

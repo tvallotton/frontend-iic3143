@@ -10,9 +10,10 @@ interface Publication {
     title: string;
     author: string;
     price?: number;
+    genres: string[];
     type: string;
     owner: Owner;
-    state: string;
+    bookState: string;
     ownerId: number;
 }
 
@@ -37,7 +38,7 @@ const PublicationCard: React.FC<PublicationCardProps> = ({ publication }) => {
                 <p className="text-sm text-gray-500">{truncate(publication.type, maxLength)}</p>
             </div>
             <div className="flex justify-between w-full mt-2">
-                <p className="text-sm text-gray-500">{truncate(publication.state, maxLength)}</p>
+                <p className="text-sm text-gray-500">{truncate(publication.bookState, maxLength)}</p>
                 <div className="text-sm text-blue-500 hover:text-blue-700">
                     <Link to={`/profile/${publication.ownerId}`}>
                         {truncate(publication.owner.name, maxLength)}
