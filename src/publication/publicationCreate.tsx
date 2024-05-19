@@ -83,7 +83,7 @@ const PublicationForm: React.FC = () => {
                 author: book.volumeInfo.authors[0],
                 description: formatDescription(book.volumeInfo.description),
                 bookId: book.id,
-                genres: book.volumeInfo.categories || "",
+                genres: book.volumeInfo.categories || ["N/A"],
                 language: book.volumeInfo.language,
                 image: book.volumeInfo.imageLinks?.thumbnail || "",
             }));
