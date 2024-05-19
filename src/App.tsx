@@ -1,18 +1,14 @@
 import { useEffect, useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
 import "./App.css";
 import axios from "axios";
 
 
-axios.defaults.baseURL = import.meta.env.VITE_API_URL;
+axios.defaults.baseURL = import.meta.env.VITE_BACK_URL;
 axios.defaults.validateStatus = () => true;
 axios.defaults.headers.common.Authorization = `Bearer ${localStorage["token"]}`;
 
 
 function App() {
-    const [count, setCount] = useState(0);
-
     const token = localStorage["token"];
     const [email, setEmail] = useState("");
 
@@ -24,7 +20,7 @@ function App() {
         }
     }
 
-    useEffect(() => { fetchUser(); }, [token, email]);
+    useEffect(() => { fetchUser(); }, [token]);
 
     return (
         <>
