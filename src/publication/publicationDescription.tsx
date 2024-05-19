@@ -110,9 +110,9 @@ const PublicationDescription: React.FC = () => {
                                 <span className="font-bold">Tipo:</span> {publication.type}
                             </p>
                             <p className="text-left mt-2 text-gray-600">
-                                <a className="hover:text-main-blue hover:underline" href={`https://books.google.cl/books?id=${publication.bookId}`} target="_blank" rel="noopener noreferrer">
+                                <Link className="hover:text-main-blue hover:underline" to={`https://books.google.cl/books?id=${publication.bookId}`} target="_blank" rel="noopener noreferrer">
                                     Ver libro en Google Books
-                                </a>
+                                </Link>
                             </p>
                             {publication.booksOfInterest.map((book, index) => (
                                 <p key={index} className="text-left mt-2 text-gray-600">

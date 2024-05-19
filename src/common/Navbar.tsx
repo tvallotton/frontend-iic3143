@@ -12,7 +12,7 @@ export default function Navbar() {
 
     async function fetchUser() {
         const r = await axios.get("/user/me");
-        if (r.status == 200) {
+        if (r.status == 0) {
             setEmail(r.data.user?.email || "");
         }
     }
@@ -28,9 +28,9 @@ export default function Navbar() {
                         <img src={pagePalsLogo} className="mt-3 sm:h-24 w-auto h-12" alt="PagePals logo" />
                     </Link>
                     <div>
-                        <a href="/find" className="py-5 px-3 text-gray-700 hover:text-gray-900">Explorar</a>
-                        {email && <a href="/publish" className="py-5 px-3 text-gray-700 hover:text-gray-900">Publicar</a>}
-                        <a href="/login" className="py-5 px-3 text-gray-700 hover:text-gray-900">{!email ? "Iniciar Sesión" : "Cerrar Sesión"}</a>
+                        <Link to="/find" className="py-5 px-3 text-gray-700 hover:text-gray-900">Explorar</Link>
+                        {email && <Link to="/publish" className="py-5 px-3 text-gray-700 hover:text-gray-900">Publicar</Link>}
+                        <Link to="/login" className="py-5 px-3 text-gray-700 hover:text-gray-900">{!email ? "Iniciar Sesión" : "Cerrar Sesión"}</Link>
                     </div>
                 </div>
             </div>
