@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import Landing from "./landing/Landing";
 import "./App.css";
 import axios from "axios";
 
@@ -9,27 +9,8 @@ axios.defaults.headers.common.Authorization = `Bearer ${localStorage["token"]}`;
 
 
 function App() {
-    const token = localStorage["token"];
-    const [email, setEmail] = useState("");
 
-
-    async function fetchUser() {
-        const r = await axios.get("/user/me");
-        if (r.status == 200) {
-            setEmail(r.data.user.email);
-        }
-    }
-
-    useEffect(() => { fetchUser(); }, [token]);
-
-    return (
-        <>
-            {email === "" ?
-                <p>Not logged in</p> :
-                <p>User email: {email}</p>
-            }
-        </>
-    );
+    return <Landing />;
 }
 
 export default App;
