@@ -57,7 +57,7 @@ export default function Landing() {
     const fetchPublications = useCallback(async () => {
         try {
             const response = await axios.get("/publications/");
-            const { data }: { data: PublicationFromBackend[] } = response;
+            const { data }: { data: PublicationFromBackend[]; } = response;
             setPublications(data.slice(0, 5));
         } catch (error) {
             console.error("Error fetching publications:", error);
@@ -76,7 +76,7 @@ export default function Landing() {
                 <div className="flex-col justify-center items-center w-1/2">
 
                     <div className="text-center">
-                        <h1 className="text-5xl font-bold">¡Únete a una comunidad de lectores!</h1>
+                        <h1 className="text-5xl font-bold">¡Únete a una comunidad de PagePals!</h1>
                         <p className="text-2xl mt-4">Comparte, intercambie y vende libros por internet</p>
                     </div>
                     <div className="flex justify-center">
