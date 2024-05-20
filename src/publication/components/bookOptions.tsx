@@ -14,7 +14,7 @@ interface BookOptionsProps {
 
 const BookOptions = ( { books, visible, onSelectBook, loadingSearch} : BookOptionsProps) => {
     return(
-        <div style={{visibility: visible || loadingSearch ?"visible":"hidden"}} className="max-w-[550px] max-h-80 absolute z-50 overflow-y-scroll bg-slate-200">
+        <div style={{visibility: visible || loadingSearch ?"visible":"hidden"}} className="max-w-[550px] max-h-80 absolute z-5 overflow-y-scroll bg-slate-200">
             {!loadingSearch ? books.map((book) => (
                 <div key={book.id} onMouseDown={(e) => e.preventDefault()} onClick={() => onSelectBook(book.id)} className="cursor-pointer w-full border-gray-100 border-b hover:bg-teal-100">
                     <div className="flex w-full h-20 items-center p-2 pl-2 border-transparent border-l-2 relative hover:border-teal-100">
