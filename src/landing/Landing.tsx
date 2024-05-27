@@ -75,18 +75,18 @@ export default function Landing() {
             <div className="flex justify-center items-center pt-48 flex-1 font-body">
                 <div className="flex-col justify-center items-center w-1/2">
                     <div>
-                    <div className="text-center">
-                        <h1 className="text-5xl font-bold font-title">¡Únete a la comunidad de PagePals!</h1>
-                        <p className="text-2xl mt-4">Comparte, intercambie y vende libros por internet</p>
-                    </div>
-                    <div className="flex justify-center">
-                        <Link to="/find">
-                            <button className="bg-main-blue hover:bg-dark-blue text-white rounded-lg py-2 px-8 mt-8 text-lg">Buscar ahora</button>
-                        </Link>
-                    </div>
-                    <div className="flex justify-center mt-4">
-                        <img src={libraryImage} className="h-auto mt-8 rounded-md" alt="Librería" />
-                    </div>
+                        <div className="text-center">
+                            <h1 className="text-5xl font-bold font-title">¡Únete a la comunidad de PagePals!</h1>
+                            <p className="text-2xl mt-4">Comparte, intercambie y vende libros por internet</p>
+                        </div>
+                        <div className="flex justify-center">
+                            <Link to="/find">
+                                <button className="bg-main-blue hover:bg-dark-blue text-white rounded-lg py-2 px-8 mt-8 text-lg">Buscar ahora</button>
+                            </Link>
+                        </div>
+                        <div className="flex justify-center mt-4">
+                            <img src={libraryImage} className="h-auto mt-8 rounded-md" alt="Librería" />
+                        </div>
                     </div>
                     <div className="mt-16">
                         <Carousel title="Géneros populares" description="Explora los géneros más populares" items={genres} viewAllLink="#" />

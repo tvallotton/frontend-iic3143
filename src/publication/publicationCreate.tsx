@@ -107,21 +107,22 @@ const PublicationForm: React.FC = () => {
             {posted ? (
                 <PublishedSuccesfully />
             ) : (
-                <div className="flex items-center justify-center p-12 pt-32">
+                <div className="flex items-center justify-center p-12 pt-48 font-body">
                     <div className="mx-auto w-full max-w-[550px] bg-white">
-                        <label className="mb-3 block text-base font-medium text-[#07074D]">
+                    <h2 className="font-title text-4xl font-bold text-center">¡Publica tu libro en PagePals!</h2>
+                        <label className="mb-3 my-6 block text-base font-medium text-[#07074D]">
                             Busca tu libro
                         </label>
                         <div className="space-y-2 mb-5">
                             <div>
                                 <input onFocus={() => setShowPopup(searchParam !== "")} onBlur={() => setShowPopup(false)} type="text" name="searchBook" id="searchBook" placeholder={searchByISBN ? "ISBN" : "Título"}
-                                    className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                                    className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
                                     onChange={({target}) => {setLoadingSearch(searchParam !== ""); setSearchParam(target.value);}} value={searchParam}/>
                                 <BookOptions books={modalBooks} visible={showPopUp} onSelectBook={onSelectBook} loadingSearch={loadingSearch}/>
                             </div>
                             <div className="flex items-center">
                                 <input checked={searchByISBN} onChange={() => setSearchByISBN(previous => !previous)} id="checked-checkbox" type="checkbox" value="" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
-                                <label className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Buscar por ISBN</label>
+                                <label className="ms-2 text-sm text-gray-900 dark:text-gray-300">Buscar por ISBN</label>
                             </div>
                         </div>
                         <form onSubmit={handleSubmit}>
