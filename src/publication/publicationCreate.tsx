@@ -109,7 +109,7 @@ const PublicationForm: React.FC = () => {
             ) : (
                 <div className="flex items-center justify-center p-12 pt-48 font-body">
                     <div className="mx-auto w-full max-w-[550px] bg-white">
-                    <h2 className="font-title text-4xl font-bold text-center">¡Publica tu libro en PagePals!</h2>
+                        <h2 className="font-title text-4xl font-bold text-center">¡Publica tu libro en PagePals!</h2>
                         <label className="mb-3 my-6 block text-base font-medium text-[#07074D]">
                             Busca tu libro
                         </label>
