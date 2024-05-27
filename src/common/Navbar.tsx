@@ -21,7 +21,7 @@ export default function Navbar() {
 
 
     return (
-        <nav className="bg-white font-body px-12 fixed w-screen h-28 shadow-md z-10">
+        <nav className="bg-white font-body px-12 fixed w-screen h-28 z-10 border border-1">
             <div className="w-full flex-row justify-end">
                 <div className="flex justify-between items-center">
                     <Link to={"/"}>

@@ -42,18 +42,14 @@ const MyAccount = () => {
             <div>
               <p className='mb-2'>
                 <FaUser className='inline mr-2' />
-                Nombre: {`${userInfo.name}`}
+                Nombre: {`${userInfo.name} ${userInfo.lastName}`}
               </p>
-              <p className='mb-2'>
-                <FaUser className='inline mr-2' />
-                Apellido: {`${userInfo.lastName}`}
-              </p>
-            </div>
-            <div>
               <p className='mb-2'>
                 <FaBirthdayCake className='inline mr-2' />
                 Cumpleaños: {userInfo.birthdate}
               </p>
+            </div>
+            <div>
               <p>
                 <FaEnvelope className='inline mr-2' />
                 Email: {userInfo.email}
