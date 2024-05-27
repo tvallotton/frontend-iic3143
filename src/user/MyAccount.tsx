@@ -1,52 +1,88 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Navbar from '../common/Navbar';
 import Footer from '../common/Footer';
+import { FaUser, FaBirthdayCake, FaEnvelope } from 'react-icons/fa';
+import axios from 'axios';
 
-// Simulando una función que obtiene la información del usuario y su historial de transacciones
-const fetchUserInfo = () => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve({
-        name: 'Humano Amigable',
-        email: 'humano@ejemplo.com',
-        transactions: [
-          { id: 1, date: '2024-05-01', amount: '-$50', description: 'Compra de comida' },
-          { id: 2, date: '2024-05-15', amount: '+$1500', description: 'Depósito de nómina' },
-        ],
-      });
-    }, 1000);
-  });
+type User = {
+  name: string;
+  lastName: string;
+  birthdate: string;
+  email: string;
 };
 
 const MyAccount = () => {
-  const [userInfo, setUserInfo] = useState(null);
+  const [userInfo, setUserInfo] = useState<User>();
 
   useEffect(() => {
-    fetchUserInfo().then((data) => {
-      setUserInfo(data);
-    });
+    fetchUser();
   }, []);
 
+  async function fetchUser() {
+    const r = await axios.get('/user/me');
+    if (r.status === 200) {
+      setUserInfo(r.data.user);
+    }
+  }
+
   if (!userInfo) {
-    return <div className="flex justify-center items-center p-5">Cargando información...</div>;
+    return <div className='flex justify-center items-center p-5'>Cargando información...</div>;
   }
 
   return (
     <>
-    <Navbar/>
-    <div className="min-h-screen flex flex-col items-center p-5">
-      <h2 className="text-2xl font-bold mb-4 text-main-blue mt-48">Aquí está tu información, {userInfo.name}</h2>
-      <p className="mb-2"><span className="font-semibold">Email:</span> {userInfo.email}</p>
-      <h3 className="font-bold mb-2 text-main-blue">Historial de Transacciones:</h3>
-      <ul className="list-disc">
-        {userInfo.transactions.map((transaction) => (
-          <li key={transaction.id} className="mb-1">
-            <span className="font-semibold">{transaction.date}</span> - {transaction.description} - <span className="font-semibold text-main-blue">{transaction.amount}</span>
-          </li>
-        ))}
-      </ul>
-    </div>
-    <Footer/>
+      <Navbar />
+      <div className='pt-48 min-h-screen px-4 py-12 flex flex-col items-center font-body'>
+        <div className='w-full max-w-6xl p-6 mb-6'>
+          <h1 className='text-4xl font-bold font-title mb-4'>Mi cuenta</h1>
+          <h2 className='text-2xl font-medium text-gray-800 mb-4'>
+            ¡Bienvenido de vuelta, {userInfo.name}!
+          </h2>
+          <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+            <div>
+              <p className='mb-2'>
+                <FaUser className='inline mr-2' />
+                Nombre: {`${userInfo.name}`}
+              </p>
+              <p className='mb-2'>
+                <FaUser className='inline mr-2' />
+                Apellido: {`${userInfo.lastName}`}
+              </p>
+            </div>
+            <div>
+              <p className='mb-2'>
+                <FaBirthdayCake className='inline mr-2' />
+                Cumpleaños: {userInfo.birthdate}
+              </p>
+              <p>
+                <FaEnvelope className='inline mr-2' />
+                Email: {userInfo.email}
+              </p>
+            </div>
+          </div>
+        </div>
+        <hr style={{ borderColor: '#ccc', width: '100%', marginBottom: '24px' }} />
+        <div className='w-full max-w-6xl p-6'>
+          <h2 className='text-2xl font-medium text-gray-800 mb-4'>Mi historial de transacciones</h2>
+          <ul className='list-disc pl-5'>
+            <p>Todavia no hay transacciones</p>
+            {/* {userInfo.transactions.map((transaction) => (
+              <li key={transaction.id} className='mb-1'>
+                <span className='font-semibold'>{transaction.date}</span> -{' '}
+                {transaction.description} -{' '}
+                <span
+                  className={`font-semibold ${
+                    transaction.amount.startsWith('-') ? 'text-red-500' : 'text-green-500'
+                  }`}
+                >
+                  {transaction.amount}
+                </span>
+              </li>
+            ))} */}
+          </ul>
+        </div>
+      </div>
+      <Footer />
     </>
   );
 };
