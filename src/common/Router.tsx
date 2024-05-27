@@ -9,6 +9,7 @@ import PublicationDescription from "../publication/publicationDescription";
 import PublicationsGrid from "../publication/publicationsGrid";
 import PublicationCreate from "../publication/publicationCreate";
 import PublicationUpdate from "../publication/publicationUpdate";
+import MyAccount from "../user/MyAccount";
 
 function Routing() {
     return (
@@ -24,6 +25,7 @@ function Routing() {
                 <Route path={"/publications/:publicationId/update"} element={<PublicationUpdate />} />
                 <Route path={"/find"} element={<PublicationsGrid />} />
                 <Route path={"/publish"} element={<PublicationCreate />} />
+                <Route path={"/me"} element={<MyAccount />} />
             </Routes>
         </BrowserRouter>
     );
