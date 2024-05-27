@@ -30,7 +30,8 @@ export default function Navbar() {
                     <div>
                         <Link to="/find" className="py-5 px-3 text-gray-700 hover:text-gray-900">Explorar</Link>
                         {email && <Link to="/publish" className="py-5 px-3 text-gray-700 hover:text-gray-900">Publicar</Link>}
-                        <Link to="/login" className="py-5 px-3 text-gray-700 hover:text-gray-900">{!email ? "Iniciar Sesión" : "Cerrar Sesión"}</Link>
+                        <Link to="/login" className="py-5 px-3 text-gray-700 hover:text-gray-900">{!email ? "Iniciar sesión" : "Cerrar sesión"}</Link>
+                        {email && <Link to="/me" className="py-5 px-3 text-gray-700 hover:text-gray-900">Mi cuenta</Link>}
                     </div>
                 </div>
             </div>
