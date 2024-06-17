@@ -21,7 +21,7 @@ export default function Navbar() {
 
 
     return (
-        <nav className="bg-white font-body px-12 fixed w-screen h-28 shadow-md z-10">
+        <nav className="bg-white font-body px-12 fixed w-screen h-28 z-10 border border-1">
             <div className="w-full flex-row justify-end">
                 <div className="flex justify-between items-center">
                     <Link to={"/"}>
@@ -30,7 +30,8 @@ export default function Navbar() {
                     <div>
                         <Link to="/find" className="py-5 px-3 text-gray-700 hover:text-gray-900">Explorar</Link>
                         {email && <Link to="/publish" className="py-5 px-3 text-gray-700 hover:text-gray-900">Publicar</Link>}
-                        <Link to="/login" className="py-5 px-3 text-gray-700 hover:text-gray-900">{!email ? "Iniciar Sesión" : "Cerrar Sesión"}</Link>
+                        <Link to="/login" className="py-5 px-3 text-gray-700 hover:text-gray-900">{!email ? "Iniciar sesión" : "Cerrar sesión"}</Link>
+                        {email && <Link to="/me" className="py-5 px-3 text-gray-700 hover:text-gray-900">Mi cuenta</Link>}
                     </div>
                 </div>
             </div>
