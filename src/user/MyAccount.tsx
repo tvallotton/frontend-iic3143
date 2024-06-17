@@ -1,10 +1,9 @@
-import { useState, useEffect } from "react";
 import Navbar from "../common/Navbar";
 import Footer from "../common/Footer";
 import { FaUser, FaBirthdayCake, FaEnvelope } from "react-icons/fa";
-import axios from "axios";
+import { useAuth } from "../auth/useAuth";
 
-type User = {
+export type User = {
   name: string;
   lastName: string;
   birthdate: string;
@@ -12,18 +11,7 @@ type User = {
 };
 
 const MyAccount = () => {
-    const [userInfo, setUserInfo] = useState<User>();
-
-    useEffect(() => {
-        fetchUser();
-    }, []);
-
-    async function fetchUser() {
-        const r = await axios.get("/user/me");
-        if (r.status === 200) {
-            setUserInfo(r.data.user);
-        }
-    }
+    const { user: userInfo } = useAuth();
 
     if (!userInfo) {
         return <div className='flex justify-center items-center p-5'>Cargando información...</div>;

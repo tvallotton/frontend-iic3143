@@ -1,32 +1,21 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../common/Navbar";
 import Footer from "../common/Footer";
-import axios from "axios";
+import { useAuth } from "../auth/useAuth";
+
 
 export default function Login() {
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
+    const { login } = useAuth();
 
-    let navigate = useNavigate();
+    const navigate = useNavigate();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-
-        const r = await axios.post("/user/login", { email, password });
-        if (r.status == 200) {
-            localStorage["token"] = r.data["authorization"];
-            navigate("/");
-        } else {
-            alert(r.data.message);
-        }
+        await login(email, password);
     };
-
-    useEffect(() => {
-        if (localStorage["token"]) {
-            localStorage.removeItem("token");
-        }
-    }, []);
 
     return (
         <>
