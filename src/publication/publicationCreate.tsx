@@ -32,6 +32,7 @@ const PublicationForm: React.FC = () => {
     const [books, setBooks] = useState <Book[]> ([]);
     const [showPopUp, setShowPopup] = useState(false);
     const [loadingSearch, setLoadingSearch] = useState(false);
+    const [canEditAuthor, setCanEditAuthor] = useState(false);
 
     const modalBooks = useMemo(() => books.map((book: Book) => ({
         id: book.id,
@@ -80,13 +81,14 @@ const PublicationForm: React.FC = () => {
             setFormData((previous) => ({
                 ...previous,
                 title: book.volumeInfo.title,
-                author: book.volumeInfo.authors[0],
+                author: book.volumeInfo.authors?.[0] || "",
                 description: formatDescription(book.volumeInfo.description),
                 bookId: book.id,
                 genres: book.volumeInfo.categories || ["N/A"],
                 language: book.volumeInfo.language,
                 image: book.volumeInfo.imageLinks?.thumbnail || "",
             }));
+            setCanEditAuthor(book.volumeInfo.authors?.[0] === "");
         }
         setShowPopup(false);
     };
@@ -131,7 +133,7 @@ const PublicationForm: React.FC = () => {
                                 placeholder="Quijote" type="text" name="title" id="title" disabled/>
 
                             <FormTextInput label="Autor" value={formData.author} onChange={handleChange}
-                                placeholder="Cervantes" type="text" name="author" id="author" disabled/>
+                                placeholder="Cervantes" type="text" name="author" id="author" disabled={canEditAuthor} />
 
                             <FormTextInput label="Descripción" value={formData.description} onChange={handleChange}
                                 placeholder="Historia de un hidalgo manchego..." type="text" name="description" id="description"/>
