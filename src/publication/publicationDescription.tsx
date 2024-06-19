@@ -4,65 +4,77 @@ import axios from "axios";
 import Navbar from "../common/Navbar";
 import Footer from "../common/Footer";
 import ButtonComponent from "../common/Button";
+import { useAuth } from "../auth/useAuth";
 
 interface Publication {
-  title: string;
-  author: string;
-  language: string;
-  genres: string[];
-  bookState: string;
-  description: string;
-  type: string;
-  price: number;
-  image: string;
-  booksOfInterest: string;
-  bookId: string;
-  owner: string;
-  ownerId: number;
+    title: string;
+    author: string;
+    language: string;
+    genres: string[];
+    bookState: string;
+    description: string;
+    type: string;
+    price: number;
+    image: string;
+    booksOfInterest: string;
+    bookId: string;
+    owner: string;
+    ownerId: string;
 }
 
 const PublicationDescription: React.FC = () => {
     const [publication, setPublication] = useState<Publication | null>(null);
     const { publicationId } = useParams();
-    const [currentUserId, setCurrentUserId] = useState(-1);
+    const { user } = useAuth();
+    const userId = user?.id;
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [showContactModal, setShowContactModal] = useState(false);
 
-    let navigate = useNavigate();
+    const navigate = useNavigate();
 
-    useEffect(() => {
-        axios
-            .get("/publications/" + publicationId)
-            .then((response) => {
+    const fetchPublication = async () => {
+        try {
+            const response = await axios.get("/publications/" + publicationId);
+            if (response.status === 200) {
                 setPublication(response.data);
-            })
-            .catch((error) => {
-                console.error(error);
-            });
-    }, [publicationId]);
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
     useEffect(() => {
-        axios
-            .get("/user/me")
-            .then((response) => {
-                setCurrentUserId(response.data.user.id);
-            })
-            .catch((error) => {
-                console.error(error);
-            });
-    }, []);
+        fetchPublication();
+    }, [publicationId]);
 
     const handleUpdate = () => {
         navigate(`/publications/${publicationId}/update`);
     };
 
-    const handleDelete = () => {
-        axios
-            .delete("/publications/" + publicationId)
-            .then(() => {
+    const handleDelete = async () => {
+        try {
+            const response = await axios.delete("/publications/" + publicationId);
+            if (response.status === 200) {
+                alert("Publicación eliminada");
                 navigate("/");
-            })
-            .catch((error) => {
-                console.error(error);
-            });
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    const handleContact = async () => {
+        try {
+            setShowContactModal(false);
+            const response = await axios.post("/publications/" + publicationId + "/interactions");
+            if (response.status === 201) {
+                alert("Mensaje enviado, espera la respuesta del vendedor a tu correo electrónico");
+            } else if (response.status === 200){
+                alert("Ya se ha enviado un mensaje a este vendedor, espera su respuesta a tu correo electrónico");
+            }
+        } catch (error) {
+            console.error(error);
+        }
     };
 
     if (!publication) {
@@ -87,7 +99,7 @@ const PublicationDescription: React.FC = () => {
                             {publication.title}
                         </h2>
                         <p className='text-sm text-gray-400'>
-              Publicado por:{" "}
+                            Publicado por:{" "}
                             <Link
                                 className='hover:text-main-blue hover:underline'
                                 to={`/profile/${publication.ownerId}`}
@@ -98,7 +110,7 @@ const PublicationDescription: React.FC = () => {
                         <div className='mt-2'>
                             {publication.type != "Permuta" && (
                                 <p className='text-center md:text-left text-4xl'>
-                  ${publication.price.toLocaleString("es-ES", { minimumFractionDigits: 0 })}
+                                    ${publication.price.toLocaleString("es-ES", { minimumFractionDigits: 0 })}
                                 </p>
                             )}
                             <p className='text-left mt-2 text-gray-600'>
@@ -123,7 +135,7 @@ const PublicationDescription: React.FC = () => {
                                     target='_blank'
                                     rel='noopener noreferrer'
                                 >
-                  Ver libro en Google Books
+                                    Ver libro en Google Books
                                 </Link>
                             </p>
                             {/* {publication.booksOfInterest.map((book, index) => (
@@ -137,23 +149,23 @@ const PublicationDescription: React.FC = () => {
                                     __html: publication.description.replace(/\n/g, "<br />"),
                                 }}
                             />
-                            {currentUserId !== publication.ownerId && (
+                            {userId !== publication.ownerId && (
                                 <div className='mt-4'>
                                     <ButtonComponent
                                         text='Contactar vendedor'
-                                        onClick={() => console.log("Comprando...")}
+                                        onClick={() => setShowContactModal(true)}
                                     />
                                 </div>
                             )}
                         </div>
                     </div>
 
-                    {currentUserId === publication.ownerId && (
+                    {userId === publication.ownerId && (
                         <div className='mt-4'>
                             <ButtonComponent text='Actualizar publicación' onClick={handleUpdate} />
                             <ButtonComponent
                                 text='Eliminar publicación'
-                                onClick={handleDelete}
+                                onClick={() => setShowDeleteModal(true)}
                                 color='bg-red-500'
                                 hoverColor='bg-red-800'
                             />
@@ -161,6 +173,36 @@ const PublicationDescription: React.FC = () => {
                     )}
                 </div>
             </div>
+            {showDeleteModal && (<div className='fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center'>
+                <div className='bg-white p-8 rounded-lg'>
+                    <h2 className='text-2xl font-bold text-center'>¿Estás seguro de eliminar la publicación?</h2>
+                    <div className='flex justify-center mt-4'>
+                        <ButtonComponent
+                            text='Cancelar'
+                            onClick={() => setShowDeleteModal(false)}
+                            color='bg-red-500'
+                            hoverColor='bg-red-800'
+                        />
+                        <ButtonComponent text='Eliminar' onClick={handleDelete} />
+                    </div>
+                </div>
+            </div>)}
+            {showContactModal && (
+                <div className='fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center'>
+                    <div className='bg-white p-8 rounded-lg'>
+                        <h2 className='text-2xl font-bold text-center'>¿Estás seguro de contactar al vendedor?</h2>
+                        <div className='flex justify-center mt-4'>
+                            <ButtonComponent
+                                text='Cancelar'
+                                onClick={() => setShowContactModal(false)}
+                                color='bg-red-500'
+                                hoverColor='bg-red-800'
+                            />
+                            <ButtonComponent text='Contactar' onClick={handleContact} />
+                        </div>
+                    </div>
+                </div>
+            )}
             <Footer />
         </>
     );
