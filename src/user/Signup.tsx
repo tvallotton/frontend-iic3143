@@ -51,7 +51,8 @@ export default function Signup() {
             email,
             password,
             name: firstName,
-            lastName
+            lastName,
+            birthdate,
         });
 
         if (r.status == 201) {
