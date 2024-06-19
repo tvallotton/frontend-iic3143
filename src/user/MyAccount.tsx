@@ -4,6 +4,7 @@ import { FaUser, FaBirthdayCake, FaEnvelope } from "react-icons/fa";
 import { useAuth } from "../auth/useAuth";
 
 export type User = {
+  id: string;
   name: string;
   lastName: string;
   birthdate: string;
