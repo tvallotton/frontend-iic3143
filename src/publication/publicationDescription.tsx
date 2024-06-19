@@ -65,8 +65,8 @@ const PublicationDescription: React.FC = () => {
 
     const handleContact = async () => {
         try {
-            const response = await axios.post("/publications/" + publicationId + "/interactions");
             setShowContactModal(false);
+            const response = await axios.post("/publications/" + publicationId + "/interactions");
             if (response.status === 201) {
                 alert("Mensaje enviado, espera la respuesta del vendedor a tu correo electrónico");
             } else if (response.status === 200){
