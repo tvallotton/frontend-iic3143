@@ -5,14 +5,54 @@ import Footer from "../common/Footer";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { type PublicationFromBackend } from "./types";
+import LanguageFilter from "./components/filters/languageFilter";
+import GenreFilter from "./components/filters/genreFilter";
+import { GenresProvider } from "./components/context/genresContext";
+import BookStateFilter from "./components/filters/bookStateFilter";
+import ButtonComponent from "../common/Button";
+import TypeFilter from "./components/filters/typeFilter";
+import SearchFilter from "./components/filters/SearchFilter";
+import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/react";
+import { MinusIcon, PlusIcon} from "@heroicons/react/20/solid";
 
 
+const filters = [
+    {
+        id: "language",
+        name: "Language",
+        spanishName: "Idioma",
+        component: LanguageFilter,
+    },
+    {
+        id: "genre",
+        name: "Genre",
+        spanishName: "Género",
+        component: GenreFilter,
+    },
+    {
+        id: "bookState",
+        name: "Book State",
+        spanishName: "Estado del libro",
+        component: BookStateFilter,
+    },
+    {
+        id: "type",
+        name: "Type",
+        spanishName: "Tipo",
+        component: TypeFilter,
+    },
+];
 
 
 const PublicationsGrid: React.FC = () => {
     const [publications, setPublications] = useState<PublicationFromBackend[]>([]);
-    const [search, setSearch] = useState(localStorage.getItem("search") || "");
     const [filteredPublications, setFilteredPublications] = useState<PublicationFromBackend[]>([]);
+    const [searchTitle, setSearchTitle] = useState(localStorage.getItem("searchTitle") || "");
+    const [searchAuthor, setSearchAuthor] = useState(localStorage.getItem("searchAuthor") || "");
+    const [languageFilter, setLanguageFilter] = useState(localStorage.getItem("languageFilter") || "");
+    const [genreFilter, setGenreFilter] = useState(localStorage.getItem("genreFilter") || "");
+    const [bookStateFilter, setBookStateFilter] = useState(localStorage.getItem("bookStateFilter") || "");
+    const [typeFilter, setTypeFilter] = useState(localStorage.getItem("typeFilter") || "");
 
     const fetchPublications = useCallback(async () => {
         try {
@@ -30,41 +70,124 @@ const PublicationsGrid: React.FC = () => {
     }, [fetchPublications]);
 
     useEffect(() => {
-        const results = publications.filter(publication =>
-            publication.title.toLowerCase().includes(search.toLowerCase())
-        );
+        localStorage.setItem("languageFilter", languageFilter);
+        localStorage.setItem("genreFilter", genreFilter);
+        localStorage.setItem("bookStateFilter", bookStateFilter);
+        localStorage.setItem("typeFilter", typeFilter);
+        localStorage.setItem("searchTitle", searchTitle);
+        localStorage.setItem("searchAuthor", searchAuthor);
+    }, [languageFilter, genreFilter, bookStateFilter, typeFilter, searchTitle, searchAuthor]);
+
+    useEffect(() => {
+        let results = publications;
+        if (searchTitle) {
+            results = publications.filter((publication) =>
+                publication.title.toLowerCase().includes(searchTitle.toLowerCase())
+            );
+        }
+        if (searchAuthor) {
+            results = publications.filter((publication) =>
+                publication.author.toLowerCase().includes(searchAuthor.toLowerCase())
+            );
+        }
+        if (languageFilter) {
+            results = results.filter((publication) => publication.language === languageFilter);
+        }
+        if (genreFilter) {
+            results = results.filter((publication) => publication.genres.includes(genreFilter));
+        }
+        if (bookStateFilter) {
+            results = results.filter((publication) => publication.bookState === bookStateFilter);
+        }
+        if (typeFilter) {
+            results = results.filter((publication) => publication.type.includes(typeFilter));
+        }
         setFilteredPublications(results);
-        localStorage.setItem("search", search);
-    }, [search, publications]);
+    }, [searchTitle, searchAuthor, languageFilter, genreFilter, bookStateFilter, typeFilter, publications]);
 
     return (
-        <>
-            <Navbar />
-            <div className="flex-col justify-center items-center pt-32 h-screen">
-                <div className="flex justify-center">
-                    <div className="relative w-96">
-                        <input
-                            type="text"
-                            value={search}
-                            onChange={(e) => setSearch(e.target.value)}
-                            placeholder="Search by name..."
-                            className="w-full p-3 pl-10 mb-4 border-2 border-gray-300 rounded-md text-lg"
-                        />
-                        <svg className="absolute left-3 top-4 h-6 w-6 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                        </svg>
-                    </div>
+        <GenresProvider>
+            <div className="bg-white">
+                <Navbar />
+                <div className="pt-7">
+                    <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                        <div className="flex items-baseline justify-between border-b border-gray-200 pb-6 pt-24">
+                            <h1 className="text-4xl font-bold tracking-tight text-gray-900">Publicaciones</h1>
+                            <div className="flex items-center">
+                                <SearchFilter
+                                    value={searchTitle}
+                                    onChange={(e) => setSearchTitle(e.target.value)}
+                                    placeholder="Buscar por título..."
+                                />
+                                <SearchFilter
+                                    value={searchAuthor}
+                                    onChange={(e) => setSearchAuthor(e.target.value)}
+                                    placeholder="Buscar por autor..."
+                                />
+                            </div>
+                        </div>
+
+                        <section aria-labelledby="products-heading" className="pb-24 pt-6">
+                            <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
+                                {/* Filters */}
+                                <div className="hidden lg:block">
+                                    <ButtonComponent
+                                        text="Reiniciar Filtros"
+                                        onClick={() => {
+                                            setLanguageFilter("");
+                                            setGenreFilter("");
+                                            setBookStateFilter("");
+                                            setTypeFilter("");
+                                        }}
+                                    />
+
+                                    {filters.map((section) => (
+                                        <Disclosure as="div" key={section.id} className="border-b border-gray-200 py-6" defaultOpen>
+                                            {({ open }) => (
+                                                <>
+                                                    <h3 className="-my-3 flow-root">
+                                                        <DisclosureButton className="flex w-full items-center justify-between bg-white py-3 text-sm text-gray-400 hover:text-gray-500">
+                                                            <span className="font-medium text-gray-900">{section.spanishName}</span>
+                                                            <span className="ml-6 flex items-center">
+                                                                {open ? (
+                                                                    <MinusIcon className="h-5 w-5" aria-hidden="true" />
+                                                                ) : (
+                                                                    <PlusIcon className="h-5 w-5" aria-hidden="true" />
+                                                                )}
+                                                            </span>
+                                                        </DisclosureButton>
+                                                    </h3>
+                                                    <DisclosurePanel className="pt-6">
+                                                        <div className="space-y-4">
+                                                            {React.createElement(section.component, {
+                                                                value: eval(`${section.id}Filter`),
+                                                                setValue: eval(`set${section.name.replace(/\s/g, "")}Filter`)
+                                                            })}
+                                                        </div>
+                                                    </DisclosurePanel>
+                                                </>
+                                            )}
+                                        </Disclosure>
+                                    ))}
+                                </div>
+
+                                {/* Product grid */}
+                                <div className="lg:col-span-3">
+                                    <div className="flex flex-wrap justify-center p-4">
+                                        {filteredPublications.map((publication: PublicationFromBackend) => (
+                                            <Link to={`/publications/${publication.id}`} key={publication.id} className="m-2">
+                                                <PublicationCard publication={publication} />
+                                            </Link>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </main>
                 </div>
-                <div className="flex flex-wrap justify-center p-4">
-                    {filteredPublications.map((publication: PublicationFromBackend) => (
-                        <Link to={`/publications/${publication.id}`} key={publication.id} className="m-2">
-                            <PublicationCard publication={publication} />
-                        </Link>
-                    ))}
-                </div>
+                <Footer />
             </div>
-            <Footer />
-        </>
+        </GenresProvider>
     );
 };
 
