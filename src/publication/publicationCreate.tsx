@@ -10,6 +10,7 @@ import PublishBookButton from "./components/publishBookButton";
 import PublishedSuccesfully from "./components/publishedSuccesfully";
 import TypeDropdown from "./components/typeDropdown";
 import type { PublicationFormParams } from "./types";
+import { useNavigate } from "react-router-dom";
 
 const PublicationForm: React.FC = () => {
     const [formData, setFormData] = useState<PublicationFormParams>({
@@ -33,6 +34,7 @@ const PublicationForm: React.FC = () => {
     const [showPopUp, setShowPopup] = useState(false);
     const [loadingSearch, setLoadingSearch] = useState(false);
     const [canEditAuthor, setCanEditAuthor] = useState(false);
+    const navigate = useNavigate();
 
     const modalBooks = useMemo(() => books.map((book: Book) => ({
         id: book.id,
@@ -44,8 +46,12 @@ const PublicationForm: React.FC = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            await axios.post("/publications", formData);
-            setPosted(true);
+            const response = await axios.post("/publications", formData);
+            if (response.status === 201){
+                setPosted(true);
+                const publicationId = response.data.id;
+                setTimeout(() => navigate("/publications/" + publicationId), 3000);
+            }
         } catch (error) {
             console.error("Error creating publication:", error);
         }
