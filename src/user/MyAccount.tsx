@@ -44,8 +44,9 @@ const MyAccount: React.FC = () => {
     const fetchInteractions = async () => {
         try {
             const response = await axios.get("/user/interactions");
-            console.log(response.data);
-            setTransactions(response.data);
+            if (response.status === 200) {
+                setTransactions(response.data);
+            }
         } catch (error) {
             console.error(error);
         }
@@ -54,8 +55,9 @@ const MyAccount: React.FC = () => {
     const fetchReviewsGiven = async () => {
         try {
             const response = await axios.get(`/reviews/given/${userInfo?.id}`);
-            console.log(response.data);
-            setReviewsGiven(response.data);
+            if (response.status === 200) {
+                setReviewsGiven(response.data);
+            }
         } catch (error) {
             console.error(error);
         }
@@ -64,8 +66,9 @@ const MyAccount: React.FC = () => {
     const fetchReviewsReceived = async () => {
         try {
             const response = await axios.get(`/reviews/received/${userInfo?.id}`);
-            console.log(response.data);
-            setReceivedReviews(response.data);
+            if (response.status === 200) {
+                setReceivedReviews(response.data);
+            }
         } catch (error) {
             console.error(error);
         }
@@ -78,7 +81,6 @@ const MyAccount: React.FC = () => {
     const getUserRating = async () => {
         try {
             const response = await axios.get(`/reviews/rating/${userInfo?.id}`);
-            console.log(response.data);
             if (response.data.average){
                 setUserRating(response.data.average.toString());
             }
@@ -96,7 +98,7 @@ const MyAccount: React.FC = () => {
         }
     }, [userInfo, showReviewForm]);
 
-    const toggleReviewForm = () => setShowReviewForm(!showReviewForm);
+    const toggleReviewForm = () => setShowReviewForm((prev) => !prev);
 
     const handleCloseReviewForm = () => {
         setShowReviewForm(false);
@@ -142,7 +144,7 @@ const MyAccount: React.FC = () => {
                 <div className='w-full max-w-6xl p-6'>
                     <h2 className='text-2xl font-medium text-gray-800 mb-4'>Mi historial de transacciones</h2>
                     <ul className='list-disc pl-5'>
-                        <p className='font-semibold py-5'>Pendientes: </p>
+                        <p className='font-semibold py-5'>Publicador contactado: </p>
                         {transactions
                             .filter((transaction) => transaction.status === "VIEWED")
                             .map((transaction) => (
