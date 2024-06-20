@@ -36,7 +36,7 @@ export type Review = {
 const MyAccount: React.FC = () => {
     const { user: userInfo } = useAuth();
     const [transactions, setTransactions] = useState<Transaction[]>([]);
-    const [showReviewForm, setShowReviewForm] = useState(false);
+    const [showReviewForm, setShowReviewForm] = useState<null | string>(null);
     const [reviewsGiven, setReviewsGiven] = useState<Review[]>([]);
     const [userRating, setUserRating] = useState("Aun no disponible");
     const [receivedReviews, setReceivedReviews] = useState<Review[]>([]);
@@ -98,10 +98,12 @@ const MyAccount: React.FC = () => {
         }
     }, [userInfo, showReviewForm]);
 
-    const toggleReviewForm = () => setShowReviewForm((prev) => !prev);
+    const toggleReviewForm = (transactionId: string) => {
+        setShowReviewForm(prev => prev === transactionId ? null : transactionId);
+    };
 
     const handleCloseReviewForm = () => {
-        setShowReviewForm(false);
+        setShowReviewForm(null);
     };
 
     if (!userInfo) {
@@ -135,7 +137,7 @@ const MyAccount: React.FC = () => {
                             </p>
                             <p>
                                 <FaStar className='inline mr-2' />
-                                Rating: {userRating.toString()}
+                                Rating: {userRating.toString().slice(0,3)}
                             </p>
                         </div>
                     </div>
@@ -148,7 +150,7 @@ const MyAccount: React.FC = () => {
                         {transactions
                             .filter((transaction) => transaction.status === "VIEWED")
                             .map((transaction) => (
-                                <li key={transaction.id} className='mb-1'>
+                                <li key={`viewed-${transaction.id}`} className='mb-1'>
                                     <span>{transaction.publication.title}</span> -{" "}
                                     <span
                                         className={`font-semibold ${transaction.publicationId.startsWith("-") ? "text-red-500" : "text-green-500"
@@ -163,7 +165,7 @@ const MyAccount: React.FC = () => {
                         {transactions
                             .filter((transaction) => transaction.status === "COMPLETED")
                             .map((transaction) => (
-                                <li key={transaction.id} className='mb-1'>
+                                <li key={`completed-${transaction.id}`} className='mb-1'>
                                     <span>{transaction.publication.title}</span> -{" "}
                                     <span
                                         className={`font-semibold ${transaction.publicationId.startsWith("-") ? "text-red-500" : "text-green-500"
@@ -176,9 +178,10 @@ const MyAccount: React.FC = () => {
                                     {!hasGivenReview(transaction) && (
                                         <span>
                                             <span> -{" "}</span>
-                                            <button className='text-main-blue underline' onClick={toggleReviewForm}> {showReviewForm ? "Cancelar" : "Dejar reseña"} </button></span>
+                                            <button className='text-main-blue underline' onClick={() => toggleReviewForm(transaction.id)}> {showReviewForm === transaction.id ? "Cancelar" : "Dejar reseña"} </button>
+                                        </span>
                                     )}
-                                    {showReviewForm && (
+                                    {showReviewForm === transaction.id && (
                                         <div className="p-5">
                                             <div className="px-10 py-5 bg-slate-500 bg-opacity-30">
                                                 <ReviewCreate publicationId={transaction.publicationId} reviewedUserId={transaction.publication.ownerId} onClose={handleCloseReviewForm} />
@@ -194,8 +197,8 @@ const MyAccount: React.FC = () => {
                 <div className='w-full max-w-6xl p-6'>
                     <h2 className='text-2xl font-medium text-gray-800 mb-4'>Reseñas recibidas</h2>
                     <ul className='list-disc pl-5'>
-                        {receivedReviews.map((review) => (
-                            <li key={review.publicationId} className='mb-1'>
+                        {receivedReviews.map((review, index) => (
+                            <li key={index} className='mb-1'>
                                 <span>{review.rating} estrellas</span> -{" "}
                                 <span className='font-semibold'>{review.comment}</span>
                             </li>

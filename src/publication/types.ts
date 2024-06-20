@@ -98,6 +98,7 @@ export interface PublicationFormParams {
 
 interface Owner {
   name: string;
+  id: string;
 }
 export interface PublicationFromBackend  extends PublicationFormParams {
   id: number;
@@ -106,7 +107,7 @@ export interface PublicationFromBackend  extends PublicationFormParams {
 }
 
 export interface Interaction {
-  id: number;
+  id: string;
   user: Owner;
 }
 
