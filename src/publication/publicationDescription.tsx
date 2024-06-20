@@ -5,6 +5,7 @@ import Navbar from "../common/Navbar";
 import Footer from "../common/Footer";
 import ButtonComponent from "../common/Button";
 import { useAuth } from "../auth/useAuth";
+import ClosePublicationModal from "./components/ClosePublicationModal";
 
 interface Publication {
     title: string;
@@ -29,6 +30,7 @@ const PublicationDescription: React.FC = () => {
     const userId = user?.id;
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [showContactModal, setShowContactModal] = useState(false);
+    const [showCloseModal, setShowCloseModal] = useState(false);
 
     const navigate = useNavigate();
 
@@ -169,6 +171,12 @@ const PublicationDescription: React.FC = () => {
                                 color='bg-red-500'
                                 hoverColor='bg-red-800'
                             />
+                            <ButtonComponent
+                                text='Cerrar publicación'
+                                onClick={() => setShowCloseModal(true)}
+                                color='bg-yellow-500'
+                                hoverColor='bg-yellow-800'
+                            />
                         </div>
                     )}
                 </div>
@@ -203,6 +211,7 @@ const PublicationDescription: React.FC = () => {
                     </div>
                 </div>
             )}
+            <ClosePublicationModal showCloseModal={showCloseModal} setShowCloseModal={setShowCloseModal} publicationId={publicationId} />
             <Footer />
         </>
     );
