@@ -5,6 +5,7 @@ import { useAuth } from "../auth/useAuth";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import ReviewCreate from "../review/reviewCreate";
+import ShowReviews from "./components/showReviews";
 
 export type User = {
     id: string;
@@ -194,17 +195,7 @@ const MyAccount: React.FC = () => {
                 </div>
                 <hr style={{ borderColor: "#ccc", width: "100%", marginBottom: "24px" }} />
                 {/* reviews received */}
-                <div className='w-full max-w-6xl p-6'>
-                    <h2 className='text-2xl font-medium text-gray-800 mb-4'>Reseñas recibidas</h2>
-                    <ul className='list-disc pl-5'>
-                        {receivedReviews.map((review, index) => (
-                            <li key={index} className='mb-1'>
-                                <span>{review.rating} estrellas</span> -{" "}
-                                <span className='font-semibold'>{review.comment}</span>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
+                <ShowReviews reviews={receivedReviews} />
             </div>
             <Footer />
         </>
