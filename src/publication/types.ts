@@ -87,6 +87,7 @@ export interface PublicationFormParams {
   language: string;
   genres: string[];
   bookState: string;
+  status: string;
   description: string;
   type: string;
   price: number;
@@ -102,6 +103,11 @@ export interface PublicationFromBackend  extends PublicationFormParams {
   id: number;
   owner: Owner;
   ownerId: number;
+}
+
+export interface Interaction {
+  id: number;
+  user: Owner;
 }
 
 
