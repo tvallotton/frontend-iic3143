@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { type PublicationFromBackend } from "./types";
+import { useAuth } from "../auth/useAuth";
 
 interface PublicationCardProps {
     publication: PublicationFromBackend;
@@ -7,6 +8,7 @@ interface PublicationCardProps {
 
 const PublicationCard: React.FC<PublicationCardProps> = ({ publication }) => {
     const maxLength = 20;
+    const { user: userInfo } = useAuth();
 
     const truncate = (str: string, max: number) => {
         return str.length > max ? str.substring(0, max) + "..." : str;
@@ -24,9 +26,11 @@ const PublicationCard: React.FC<PublicationCardProps> = ({ publication }) => {
             <div className="flex justify-between w-full mt-2">
                 <p className="text-sm text-gray-500">{truncate(publication.bookState, maxLength)}</p>
                 <div className="text-sm text-blue-500 hover:text-blue-700">
-                    <Link to={`/profile/${publication.ownerId}`}>
-                        {truncate(publication.owner.name, maxLength)}
-                    </Link>
+                    {publication.ownerId === userInfo?.id ? (
+                        <Link to={"/me"}>Yo</Link>
+                    ) : (
+                        <Link to={`/profile/${publication.ownerId}`}>{truncate(publication.owner.name, maxLength)}</Link>
+                    )}
                 </div>
             </div>
         </div>
