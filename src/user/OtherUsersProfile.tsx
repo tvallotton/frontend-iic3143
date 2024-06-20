@@ -1,7 +1,6 @@
 import Navbar from "../common/Navbar";
 import Footer from "../common/Footer";
 import { FaUser, FaStar } from "react-icons/fa";
-//import { useAuth } from "../auth/useAuth";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Review } from "./MyAccount";
@@ -25,7 +24,6 @@ const OtherUsersProfile: React.FC = () => {
         try {
             const response = await axios.get("/user/" + userId);
             if (response.status === 200) {
-                console.log(response.data.user);
                 setProfileInfo(response.data.user);
             }
         } catch (error) {
