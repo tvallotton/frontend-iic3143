@@ -99,9 +99,9 @@ interface Owner {
   name: string;
 }
 export interface PublicationFromBackend  extends PublicationFormParams {
-  id: number;
+  id: string;
   owner: Owner;
-  ownerId: number;
+  ownerId: string;
 }
 
 
