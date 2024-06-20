@@ -11,6 +11,7 @@ import PublicationCreate from "../publication/publicationCreate";
 import PublicationUpdate from "../publication/publicationUpdate";
 import MyAccount from "../user/MyAccount";
 import { AuthProvider } from "../auth/AuthContext.tsx";
+import OtherUsersProfile from "../user/OtherUsersProfile.tsx";
 
 function Routing() {
     return (
@@ -28,6 +29,7 @@ function Routing() {
                     <Route path={"/find"} element={<PublicationsGrid />} />
                     <Route path={"/publish"} element={<PublicationCreate />} />
                     <Route path={"/me"} element={<MyAccount />} />
+                    <Route path={"/profile/:userId"} element={<OtherUsersProfile />} />
                 </Routes>
             </AuthProvider>
         </BrowserRouter>
