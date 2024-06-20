@@ -6,27 +6,28 @@ interface Review {
   rating: number;
   comment: string;
   publicationId?: string;
-  userId: number;
-  reviewedUserId: number;
+  reviewedUserId?: string;
 }
 
 interface ReviewCreateProps {
   publicationId?: string;
+  reviewedUserId?: string;
+  onClose?: () => void;
 }
 
-const ReviewCreate: React.FC<ReviewCreateProps> = ({ publicationId }) => {
+const ReviewCreate: React.FC<ReviewCreateProps> = ({ publicationId, reviewedUserId, onClose }) => {
     const [formData, setFormData] = useState<Review>({
         rating: 3,
         comment: "",
         publicationId: publicationId,
-        userId: 6,
-        reviewedUserId: 8,
+        reviewedUserId: reviewedUserId,
     });
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
             await axios.post("/reviews", formData);
+            if (onClose) onClose();
         } catch (error) {
             console.error("Error creating review:", error);
         }
