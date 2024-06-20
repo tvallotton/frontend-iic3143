@@ -6,14 +6,17 @@ import { Interaction } from "../types";
 import ReviewCreate from "../../review/reviewCreate";
 
 interface ClosePublicationModalProps {
-  showCloseModal: boolean;
-  setShowCloseModal: Dispatch<SetStateAction<boolean>>;
-  publicationId: string | undefined;
+    showCloseModal: boolean;
+    setShowCloseModal: Dispatch<SetStateAction<boolean>>;
+    publicationId: string | undefined;
 }
 
 const ClosePublicationModal: FC<ClosePublicationModalProps> = ({ showCloseModal, setShowCloseModal, publicationId }) => {
     const [selectedInteraction, setSelectedInteraction] = useState("");
     const [interactions, setInteractions] = useState([] as Interaction[]);
+    const [interestedUserId, setInterestedUserId] = useState<string | undefined>();
+    const [showReviewForm, setShowReviewForm] = useState(true);
+
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -30,6 +33,14 @@ const ClosePublicationModal: FC<ClosePublicationModalProps> = ({ showCloseModal,
         fetchInteractions();
     }, []);
 
+    const handleSelectorChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        setSelectedInteraction(e.target.value);
+        const interaction = interactions.find((interaction) => interaction.id === e.target.value);
+        if (interaction) {
+            setInterestedUserId(interaction.user.id);
+        }
+    };
+
     const handleClosePublication = () => {
         if (interactions.length > 0 && !selectedInteraction) {
             alert("Por favor, selecciona la interacción completada.");
@@ -41,6 +52,10 @@ const ClosePublicationModal: FC<ClosePublicationModalProps> = ({ showCloseModal,
         axios.put(`/publications/${publicationId}`, { status: "Cerrada" });
         setShowCloseModal(false);
         navigate("/");
+    };
+
+    const handleReviewForm = () => {
+        setShowReviewForm((prev) => !prev);
     };
 
     return (
@@ -55,8 +70,9 @@ const ClosePublicationModal: FC<ClosePublicationModalProps> = ({ showCloseModal,
                                 <select
                                     id="interactionSelect"
                                     value={selectedInteraction}
-                                    onChange={(e) => setSelectedInteraction(e.target.value)}
+                                    onChange={handleSelectorChange}
                                     className="block w-full mt-2"
+                                    disabled={!showReviewForm}
                                 >
                                     <option value="">Selecciona una opción</option>
                                     <option value="closeOnly">Cerrar sin interacción</option>
@@ -66,16 +82,25 @@ const ClosePublicationModal: FC<ClosePublicationModalProps> = ({ showCloseModal,
                                         </option>
                                     ))}
                                 </select>
-                                <ReviewCreate publicationId={publicationId} reviewedUserId={selectedInteraction} />
+                                {(!(selectedInteraction === "closeOnly" || selectedInteraction === "")&&showReviewForm) && (
+
+                                    <div className="p-5">
+                                        <div className="px-10 py-5 bg-slate-500 bg-opacity-30">
+                                            <ReviewCreate publicationId={publicationId} reviewedUserId={interestedUserId} onClose={handleReviewForm}/>
+                                        </div>
+                                    </div>
+                                )}
                             </div>
                         )}
                         <div className='flex justify-center mt-4'>
-                            <ButtonComponent
-                                text='Cancelar'
-                                onClick={() => setShowCloseModal(false)}
-                                color='bg-red-500'
-                                hoverColor='bg-red-800'
-                            />
+                            {showReviewForm && (
+                                <ButtonComponent
+                                    text='Cancelar'
+                                    onClick={() => setShowCloseModal(false)}
+                                    color='bg-red-500'
+                                    hoverColor='bg-red-800'
+                                />
+                            )}
                             <ButtonComponent
                                 text='Cerrar publicación'
                                 onClick={handleClosePublication}
