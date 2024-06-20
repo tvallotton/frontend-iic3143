@@ -12,6 +12,7 @@ export type User = {
     lastName: string;
     birthdate: string;
     email: string;
+    isAdmin: boolean;
 };
 
 export type Transaction = {
@@ -81,7 +82,7 @@ const MyAccount: React.FC = () => {
     const getUserRating = async () => {
         try {
             const response = await axios.get(`/reviews/rating/${userInfo?.id}`);
-            if (response.data.average){
+            if (response.data.average) {
                 setUserRating(response.data.average.toString());
             }
         } catch (error) {
@@ -137,7 +138,7 @@ const MyAccount: React.FC = () => {
                             </p>
                             <p>
                                 <FaStar className='inline mr-2' />
-                                Rating: {userRating.toString().slice(0,3)}
+                                Rating: {userRating.toString().slice(0, 3)}
                             </p>
                         </div>
                     </div>
@@ -153,8 +154,8 @@ const MyAccount: React.FC = () => {
                                 <li key={`viewed-${transaction.id}`} className='mb-1'>
                                     <span>{transaction.publication.title}</span> -{" "}
                                     <span
-                                        className={`font-semibold ${transaction.publicationId.startsWith("-") ? "text-red-500" : "text-green-500"
-                                        } `}
+                                        className={`font-semibold ${transaction.publicationId.startsWith("-") ? "text-red-500" : "text-green-500"} `
+                                        }
                                     >
                                         <a href={`/publications/${transaction.publicationId}`}>Ver Publicación</a>
                                     </span> -{" "}
@@ -168,8 +169,8 @@ const MyAccount: React.FC = () => {
                                 <li key={`completed-${transaction.id}`} className='mb-1'>
                                     <span>{transaction.publication.title}</span> -{" "}
                                     <span
-                                        className={`font-semibold ${transaction.publicationId.startsWith("-") ? "text-red-500" : "text-green-500"
-                                        } `}
+                                        className={`font-semibold ${transaction.publicationId.startsWith("-") ? "text-red-500" : "text-green-500"} `
+                                        }
                                     >
                                         <a href={`/publications/${transaction.publicationId}`}>Ver Publicación</a>
                                     </span> -{" "}
