@@ -42,6 +42,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         delete localStorage["token"];
         axios.defaults.headers.common.Authorization = "";
         setToken("");
+        setUser(null);
     };
 
     useEffect(() => {
