@@ -152,7 +152,7 @@ const PublicationDescription: React.FC = () => {
                                     __html: publication.description.replace(/\n/g, "<br />"),
                                 }}
                             />
-                            {userId !== publication.ownerId && (
+                            {userId && userId !== publication.ownerId && (
                                 <div className='mt-4'>
                                     <ButtonComponent
                                         text='Contactar vendedor'
@@ -160,6 +160,15 @@ const PublicationDescription: React.FC = () => {
                                     />
                                 </div>
                             )}
+                            {!userId && (
+                                <div className='mt-4'>
+                                    <ButtonComponent
+                                        text='Crea una cuenta para contactar al vendedor'
+                                        onClick={() => navigate("/signup")}
+                                    />
+                                </div>
+                            )}
+
 
                             {
                                 user?.isAdmin && userId !== publication.ownerId && (
