@@ -35,16 +35,11 @@ describe("ButtonComponent", () => {
     });
 
     it("should apply hover color", () => {
-    // This test verifies that the hover color is correctly applied.
-    // Note: Testing hover styles directly can be complex; this is a simplified check.
         const handleClick = jest.fn();
         const { getByText } = render(<ButtonComponent text="Click me" onClick={handleClick} />);
     
         const buttonElement = getByText(/Click me/i);
         fireEvent.mouseOver(buttonElement);
-
-        // This check will only verify the hover class presence, not the actual style.
-        // Visual verification or E2E tests are better suited for actual style verification.
         expect(buttonElement).toHaveClass("hover:bg-dark-blue");
     });
 });

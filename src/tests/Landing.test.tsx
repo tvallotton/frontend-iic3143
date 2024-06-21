@@ -5,10 +5,9 @@ import { BrowserRouter } from "react-router-dom";
 import Landing from "../landing/Landing";
 import "@testing-library/jest-dom";
 
-// Mock axios and react-router-dom
 jest.mock("axios");
 jest.mock("react-router-dom", () => ({
-    ...jest.requireActual("react-router-dom"), // use actual for all non-hook parts
+    ...jest.requireActual("react-router-dom"), 
     Link: ({ children }: { children: React.ReactNode }) => children,
 }));
 
@@ -30,8 +29,6 @@ describe("Landing Component", () => {
         expect(screen.getByText("¡Únete a la comunidad de PagePals!")).toBeInTheDocument();
         expect(screen.getByText("Buscar ahora")).toBeInTheDocument();
         expect(screen.getByAltText("Librería")).toBeInTheDocument();
-
-        // Wait for the publications to be fetched and displayed
         await waitFor(() => {
             expect(screen.getByText("Test Publication 1")).toBeInTheDocument();
             expect(screen.getByText("Author 1")).toBeInTheDocument();
@@ -41,8 +38,5 @@ describe("Landing Component", () => {
     it("navigates to find page on button click", async () => {
         render(<Landing />, { wrapper: BrowserRouter });
         userEvent.click(screen.getByText("Buscar ahora"));
-
-    // Assuming you have a route set up for "/find", you would then check if the URL has changed.
-    // This is more of an E2E testing scenario, which would be better suited for tools like Cypress.
     });
 });

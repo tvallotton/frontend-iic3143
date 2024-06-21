@@ -33,16 +33,12 @@ describe("PublicationCard Component", () => {
             </Router>
         );
 
-        // Test image rendering
         const image = screen.getByRole("img");
         expect(image).toHaveAttribute("src", mockPublication.image);
         expect(image).toHaveAttribute("alt", mockPublication.title);
-
-        // Test title and author truncation
         expect(screen.getByText("Test Publication Tit...")).toBeInTheDocument();
         expect(screen.getByText("Author Name")).toBeInTheDocument();
 
-        // Test price rendering
         expect(screen.getByText("$100")).toBeInTheDocument();
 
         expect(screen.getByText("Venta")).toBeInTheDocument();
