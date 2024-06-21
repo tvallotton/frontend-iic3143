@@ -1,33 +1,28 @@
-import { renderHook, act } from "@testing-library/react-hooks";
+import { render, act, screen } from "@testing-library/react";
 import { useDebouncedValue } from "../hooks/useDebouncedValue";
+import "@testing-library/jest-dom";
+ 
+function TestComponent({ inputValue, delay }: { inputValue: string, delay: number }) {
+    const debouncedValue = useDebouncedValue(inputValue, delay);
+    return <div>{debouncedValue}</div>;
+}
 
-describe("useDebouncedValue", () => {
+describe("useDebouncedValue in a component", () => {
     jest.useFakeTimers();
 
     it("should return the same value after the specified delay", async () => {
-        const { result, rerender, waitForNextUpdate } = renderHook(
-            ({ inputValue, delay }) => useDebouncedValue(inputValue, delay),
-            { initialProps: { inputValue: "initial", delay: 500 } }
-        );
-
-        expect(result.current).toBe("initial");
-
+        const { rerender } = render(<TestComponent inputValue="initial" delay={500} />);
+        expect(screen.getByText("initial")).toBeInTheDocument();
+        rerender(<TestComponent inputValue="updated" delay={500} />);
         act(() => {
-            rerender({ inputValue: "updated", delay: 500 });
             jest.advanceTimersByTime(100);
         });
-
-        expect(result.current).toBe("initial");
-
+        expect(screen.getByText("initial")).toBeInTheDocument();
         act(() => {
-            jest.advanceTimersByTime(400); 
+            jest.advanceTimersByTime(400);
         });
-
-        await act(async () => {
-            await waitForNextUpdate();
-        });
-        expect(result.current).toBe("updated");
+        expect(await screen.findByText("updated")).toBeInTheDocument();
     });
-  
+
     jest.useRealTimers();
 });
