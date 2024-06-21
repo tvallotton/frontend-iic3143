@@ -8,10 +8,10 @@ interface ButtonProps {
     hoverColor?: string;
 }
 
-const ButtonComponent: React.FC<ButtonProps> = ({ text, onClick, color = "bg-main-blue", hoverColor="bg-blue-700" }) => {
+const ButtonComponent: React.FC<ButtonProps> = ({ text, onClick, color = "bg-main-blue", hoverColor="bg-dark-blue" }) => {
     return (
         <button
-            className={`${color} m-1 hover:${hoverColor} text-white font-bold py-2 px-4 rounded self-start w-full`} 
+            className={`${color} m-1 hover:${hoverColor} text-white py-2 px-4 rounded self-start w-full`} 
             onClick={onClick}
         >
             {text}

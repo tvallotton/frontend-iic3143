@@ -10,6 +10,7 @@ import PublishBookButton from "./components/publishBookButton";
 import PublishedSuccesfully from "./components/publishedSuccesfully";
 import TypeDropdown from "./components/typeDropdown";
 import type { PublicationFormParams } from "./types";
+import { useNavigate } from "react-router-dom";
 
 const PublicationForm: React.FC = () => {
     const [formData, setFormData] = useState<PublicationFormParams>({
@@ -32,6 +33,8 @@ const PublicationForm: React.FC = () => {
     const [books, setBooks] = useState <Book[]> ([]);
     const [showPopUp, setShowPopup] = useState(false);
     const [loadingSearch, setLoadingSearch] = useState(false);
+    const [canEditAuthor, setCanEditAuthor] = useState(false);
+    const navigate = useNavigate();
 
     const modalBooks = useMemo(() => books.map((book: Book) => ({
         id: book.id,
@@ -43,8 +46,12 @@ const PublicationForm: React.FC = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            await axios.post("/publications", formData);
-            setPosted(true);
+            const response = await axios.post("/publications", formData);
+            if (response.status === 201){
+                setPosted(true);
+                const publicationId = response.data.id;
+                setTimeout(() => navigate("/publications/" + publicationId), 3000);
+            }
         } catch (error) {
             console.error("Error creating publication:", error);
         }
@@ -80,13 +87,14 @@ const PublicationForm: React.FC = () => {
             setFormData((previous) => ({
                 ...previous,
                 title: book.volumeInfo.title,
-                author: book.volumeInfo.authors[0],
+                author: book.volumeInfo.authors?.[0] || "",
                 description: formatDescription(book.volumeInfo.description),
                 bookId: book.id,
                 genres: book.volumeInfo.categories || ["N/A"],
                 language: book.volumeInfo.language,
                 image: book.volumeInfo.imageLinks?.thumbnail || "",
             }));
+            setCanEditAuthor(book.volumeInfo.authors?.[0] === "");
         }
         setShowPopup(false);
     };
@@ -107,21 +115,22 @@ const PublicationForm: React.FC = () => {
             {posted ? (
                 <PublishedSuccesfully />
             ) : (
-                <div className="flex items-center justify-center p-12 pt-32">
+                <div className="flex items-center justify-center p-12 pt-48 font-body">
                     <div className="mx-auto w-full max-w-[550px] bg-white">
-                        <label className="mb-3 block text-base font-medium text-[#07074D]">
+                        <h2 className="font-title text-4xl font-bold text-center">¡Publica tu libro en PagePals!</h2>
+                        <label className="mb-3 my-6 block text-base font-medium text-[#07074D]">
                             Busca tu libro
                         </label>
                         <div className="space-y-2 mb-5">
                             <div>
                                 <input onFocus={() => setShowPopup(searchParam !== "")} onBlur={() => setShowPopup(false)} type="text" name="searchBook" id="searchBook" placeholder={searchByISBN ? "ISBN" : "Título"}
-                                    className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                                    className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
                                     onChange={({target}) => {setLoadingSearch(searchParam !== ""); setSearchParam(target.value);}} value={searchParam}/>
                                 <BookOptions books={modalBooks} visible={showPopUp} onSelectBook={onSelectBook} loadingSearch={loadingSearch}/>
                             </div>
                             <div className="flex items-center">
                                 <input checked={searchByISBN} onChange={() => setSearchByISBN(previous => !previous)} id="checked-checkbox" type="checkbox" value="" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
-                                <label className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Buscar por ISBN</label>
+                                <label className="ms-2 text-sm text-gray-900 dark:text-gray-300">Buscar por ISBN</label>
                             </div>
                         </div>
                         <form onSubmit={handleSubmit}>
@@ -130,7 +139,7 @@ const PublicationForm: React.FC = () => {
                                 placeholder="Quijote" type="text" name="title" id="title" disabled/>
 
                             <FormTextInput label="Autor" value={formData.author} onChange={handleChange}
-                                placeholder="Cervantes" type="text" name="author" id="author" disabled/>
+                                placeholder="Cervantes" type="text" name="author" id="author" disabled={canEditAuthor} />
 
                             <FormTextInput label="Descripción" value={formData.description} onChange={handleChange}
                                 placeholder="Historia de un hidalgo manchego..." type="text" name="description" id="description"/>
