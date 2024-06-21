@@ -32,6 +32,7 @@ const PublicationDescription: React.FC = () => {
     const [showContactModal, setShowContactModal] = useState(false);
     const [showCloseModal, setShowCloseModal] = useState(false);
 
+
     const navigate = useNavigate();
 
     const fetchPublication = async () => {
@@ -71,7 +72,7 @@ const PublicationDescription: React.FC = () => {
             const response = await axios.post("/publications/" + publicationId + "/interactions");
             if (response.status === 201) {
                 alert("Mensaje enviado, espera la respuesta del vendedor a tu correo electrónico");
-            } else if (response.status === 200){
+            } else if (response.status === 200) {
                 alert("Ya se ha enviado un mensaje a este vendedor, espera su respuesta a tu correo electrónico");
             }
         } catch (error) {
@@ -159,6 +160,19 @@ const PublicationDescription: React.FC = () => {
                                     />
                                 </div>
                             )}
+
+                            {
+                                user?.isAdmin && userId !== publication.ownerId && (
+                                    <div className='mt-4'>
+                                        <ButtonComponent
+                                            text='Borrar publicación'
+                                            onClick={() => setShowDeleteModal(true)}
+                                            color='bg-red-500'
+                                            hoverColor='bg-red-800'
+                                        />
+                                    </div>
+                                )
+                            }
                         </div>
                     </div>
 
