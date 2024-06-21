@@ -95,6 +95,21 @@ export interface PublicationFormParams {
   bookId: string;
 }
 
+export interface PublicationFormErrors {
+  title?: string;
+  author?: string;
+  language?: string;
+  genres?: string;
+  bookState?: string;
+  description?: string;
+  type?: string;
+  price?: string;
+  image?: string;
+  booksOfInterest?: string;
+  bookId?: string;
+}
+
+
 interface Owner {
   name: string;
   id: string;
