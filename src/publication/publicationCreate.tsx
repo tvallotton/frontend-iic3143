@@ -9,7 +9,7 @@ import FormTextInput from "./components/formTextInput";
 import PublishBookButton from "./components/publishBookButton";
 import PublishedSuccesfully from "./components/publishedSuccesfully";
 import TypeDropdown from "./components/typeDropdown";
-import type { PublicationFormParams } from "./types";
+import type { PublicationFormParams, PublicationFormErrors } from "./types";
 import { useNavigate } from "react-router-dom";
 
 const PublicationForm: React.FC = () => {
@@ -26,6 +26,7 @@ const PublicationForm: React.FC = () => {
         booksOfInterest: "",
         bookId: "",
     });
+    const [errors, setErrors] = useState<PublicationFormErrors>({});
     const [posted, setPosted] = useState(false);
     const [searchByISBN, setSearchByISBN] = useState(false);
     const [searchParam, setSearchParam] = useState("");
@@ -45,6 +46,9 @@ const PublicationForm: React.FC = () => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        if (!validateForm()) {
+            return;
+        }
         try {
             const response = await axios.post("/publications", formData);
             if (response.status === 201){
@@ -55,6 +59,29 @@ const PublicationForm: React.FC = () => {
         } catch (error) {
             console.error("Error creating publication:", error);
         }
+    };
+
+    const validateForm = () => {
+        const errors: PublicationFormErrors = {};
+        if (!formData.title) {
+            errors.title = "Busca un libro para completar este campo";
+        }
+        if (!formData.author) {
+            errors.author = "Busca un libro para completar este campo";
+        }
+        if (!formData.language) {
+            errors.language = "El idioma es requerido";
+        }
+        if (!formData.type) {
+            errors.type = "El tipo de publicación es requerido";
+        }
+        if (formData.type === "Venta" || formData.type === "Venta/Permuta") {
+            if (!formData.price) {
+                errors.price = "El precio debe ser mayor a cero";
+            }
+        }
+        setErrors(errors);
+        return Object.keys(errors).length === 0;
     };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -135,11 +162,11 @@ const PublicationForm: React.FC = () => {
                         </div>
                         <form onSubmit={handleSubmit}>
 
-                            <FormTextInput label="Título" value={formData.title} onChange={handleChange}
+                            <FormTextInput label="Título" value={formData.title} onChange={handleChange} error={errors.title}
                                 placeholder="Quijote" type="text" name="title" id="title" disabled/>
 
-                            <FormTextInput label="Autor" value={formData.author} onChange={handleChange}
-                                placeholder="Cervantes" type="text" name="author" id="author" disabled={canEditAuthor} />
+                            <FormTextInput label="Autor" value={formData.author} onChange={handleChange} error={errors.author}
+                                placeholder="Cervantes" type="text" name="author" id="author" disabled={!canEditAuthor} />
 
                             <FormTextInput label="Descripción" value={formData.description} onChange={handleChange}
                                 placeholder="Historia de un hidalgo manchego..." type="text" name="description" id="description"/>
@@ -158,8 +185,7 @@ const PublicationForm: React.FC = () => {
 
                             {(formData.type === "Venta" || formData.type === "Venta/Permuta")? (
                                 <FormTextInput label="Precio" value={formData.price} onChange={handleChange}
-                                    placeholder="$" type="number" name="price" id="price"/>) : null}
-
+                                    placeholder="$" type="number" name="price" id="price" error={errors.price} />) : null}
                             <PublishBookButton />
                         </form>
                     </div>
