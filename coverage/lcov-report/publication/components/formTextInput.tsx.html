@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for landing/components/Carousel.tsx</title>
+    <title>Code coverage report for publication/components/formTextInput.tsx</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../prettify.css" />
     <link rel="stylesheet" href="../../base.css" />
@@ -19,34 +19,34 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../index.html">All files</a> / <a href="index.html">landing/components</a> Carousel.tsx</h1>
+        <h1><a href="../../index.html">All files</a> / <a href="index.html">publication/components</a> formTextInput.tsx</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">80% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>3/3</span>
+                <span class='fraction'>4/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>2/2</span>
-            </div>
-        
-            
-            <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
-                <span class="quiet">Functions</span>
-                <span class='fraction'>2/2</span>
-            </div>
-        
-            
-            <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
-                <span class="quiet">Lines</span>
                 <span class='fraction'>3/3</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">66.66% </span>
+                <span class="quiet">Functions</span>
+                <span class='fraction'>2/3</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">80% </span>
+                <span class="quiet">Lines</span>
+                <span class='fraction'>4/5</span>
             </div>
         
             
@@ -95,24 +95,11 @@
 <a name='L30'></a><a href='#L30'>30</a>
 <a name='L31'></a><a href='#L31'>31</a>
 <a name='L32'></a><a href='#L32'>32</a>
-<a name='L33'></a><a href='#L33'>33</a>
-<a name='L34'></a><a href='#L34'>34</a>
-<a name='L35'></a><a href='#L35'>35</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L33'></a><a href='#L33'>33</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -120,6 +107,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">172x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -127,45 +115,51 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">export interface CarouselItem {
-    title: string;
-    description?: string;
-    image: string;
-    link: string;
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span></td><td class="text"><pre class="prettyprint lang-js">interface FormTextInputProps {
+    label: string;
+    value: string | number;
+    onChange: (e: React.ChangeEvent&lt;HTMLInputElement | HTMLTextAreaElement&gt;) =&gt; void;
+    placeholder: string;
+    type: string;
+    name: string;
+    id: string;
+    disabled?: boolean;
 }
 &nbsp;
-interface CarouselProps {
-    title: string;
-    description: string;
-    items: CarouselItem[];
-    viewAllLink: string;
-}
-&nbsp;
-export default function Carousel({ title, description, items, viewAllLink }: CarouselProps) {
-    return (
-        &lt;div className="flex flex-col items-center justify-start"&gt;
-            &lt;h2 className="text-3xl font-bold font-title"&gt;{title}&lt;/h2&gt;
-            &lt;p className="text-lg mb-8"&gt;{description}&lt;/p&gt;
-            &lt;div className="overflow-x-auto w-[700px]"&gt;
-                &lt;div className="flex flex-row justify-start items-start gap-x-32"&gt;
-                    {items.map((item) =&gt; (
-                        &lt;a href={item.link} key={item.title} className="flex flex-col items-center w-32"&gt;
-                            &lt;img src={item.image} alt={item.title} className="rounded-md min-w-32" /&gt;
-                            &lt;p className="text-lg text-center"&gt;{item.title}&lt;/p&gt;
-                            {item.description &amp;&amp; &lt;p className="text-sm text-center"&gt;{item.description}&lt;/p&gt;}
-                        &lt;/a&gt;
-                    ))}
-                &lt;/div&gt;
+const FormTextInput = ( { label, value, onChange, placeholder, type, name, id, disabled = false} : FormTextInputProps) =&gt; {
+    return(
+        name !== "description" ?
+            &lt;div className="mb-5"&gt;
+                &lt;label className="mb-3 block text-base text-[#07074D]"&gt;
+                    {label}
+                &lt;/label&gt;
+                &lt;input type={type}  name={name} id={id} placeholder={placeholder} disabled={disabled}
+                    className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" 
+                    onChange={(e) =&gt; onChange(e)} value={value}/&gt;
+            &lt;/div&gt; : &lt;div className="mb-5"&gt;
+                &lt;label className="mb-3 block text-base text-[#07074D]"&gt;
+                    {label}
+                &lt;/label&gt;
+                &lt;textarea placeholder={placeholder} disabled={disabled}
+                    className="w-full h-60 rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" 
+                    onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >onChange(e)}</span> value={value} name={name} id={id}/&gt;
             &lt;/div&gt;
-            &lt;a href={viewAllLink} className="text-lg underline mt-4"&gt;Ver todos&lt;/a&gt;
-        &lt;/div&gt;
     );
-}
-&nbsp;</pre></td></tr></table></pre>
+};
+&nbsp;
+export default FormTextInput;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->

@@ -8,9 +8,8 @@ function TestComponent({ inputValue, delay }: { inputValue: string, delay: numbe
 }
 
 describe("useDebouncedValue in a component", () => {
-    jest.useFakeTimers();
-
     it("should return the same value after the specified delay", async () => {
+        jest.useFakeTimers();
         const { rerender } = render(<TestComponent inputValue="initial" delay={500} />);
         expect(screen.getByText("initial")).toBeInTheDocument();
         rerender(<TestComponent inputValue="updated" delay={500} />);
@@ -22,7 +21,6 @@ describe("useDebouncedValue in a component", () => {
             jest.advanceTimersByTime(400);
         });
         expect(await screen.findByText("updated")).toBeInTheDocument();
+        jest.useRealTimers();
     });
-
-    jest.useRealTimers();
 });

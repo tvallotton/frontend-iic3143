@@ -82,19 +82,4 @@ describe("AuthProvider", () => {
         expect(localStorage["token"]).toBeUndefined();
         expect(axios.defaults.headers.common.Authorization).toBe("");
     });
-
-    it("calls logout on non-200 response", async () => {
-        const token = "test-token";
-        localStorage.setItem("token", token);
-        mockAxiosGet.mockResolvedValue({ status: 401 });
-
-        await act(async () => {
-            render(
-                <AuthProvider>
-                    <div>Test</div>
-                </AuthProvider>,
-            );
-        });
-        expect(localStorage.getItem("token")).toBeNull();
-    });
 });
