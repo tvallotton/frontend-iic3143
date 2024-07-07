@@ -33,15 +33,11 @@ export default function Signup() {
             alert("las contraseñas no coinciden");
         }
 
-        if (email != confirmEmail) { // Check if email and confirmation email match
+        if (email != confirmEmail) { 
             alert("Los correos electrónicos no coinciden");
             return;
         }
-
-        // Calculate age
         const age = calculateAge(birthdate);
-
-        // Check if age is less than 18
         if (age < 18) {
             alert("Debes tener al menos 18 años para registrarte.");
             return;

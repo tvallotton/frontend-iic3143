@@ -6,10 +6,11 @@ interface FormTextInputProps {
     type: string;
     name: string;
     id: string;
+    error?: string;
     disabled?: boolean;
 }
 
-const FormTextInput = ( { label, value, onChange, placeholder, type, name, id, disabled = false} : FormTextInputProps) => {
+const FormTextInput = ( { label, value, onChange, placeholder, type, name, id, error, disabled = false,} : FormTextInputProps) => {
     return(
         name !== "description" ?
             <div className="mb-5">
@@ -17,15 +18,17 @@ const FormTextInput = ( { label, value, onChange, placeholder, type, name, id, d
                     {label}
                 </label>
                 <input type={type}  name={name} id={id} placeholder={placeholder} disabled={disabled}
-                    className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" 
+                    className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
                     onChange={(e) => onChange(e)} value={value}/>
+                {error && <p className="text-red-500">{error}</p>}
             </div> : <div className="mb-5">
                 <label className="mb-3 block text-base text-[#07074D]">
                     {label}
                 </label>
                 <textarea placeholder={placeholder} disabled={disabled}
-                    className="w-full h-60 rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" 
+                    className="w-full h-60 rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
                     onChange={(e) => onChange(e)} value={value} name={name} id={id}/>
+                {error && <p className="text-red-500">{error}</p>}
             </div>
     );
 };

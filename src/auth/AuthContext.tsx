@@ -10,7 +10,7 @@ export const AuthContext = createContext({
     user: null as User | null,
 });
 
-const protectedRoutesKeywords = ["publish", "update", "me"];
+const protectedRoutesKeywords = ["publish", "update", "me", "profile"];
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const [token, setToken] = useState(localStorage["token"] || "");
@@ -59,7 +59,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         } else if (token && ["/login", "/signup"].includes(location.pathname)) {
             navigate("/");
         }
-    }, [token]);
+    }, [token, location.pathname]);
 
     return (
         <AuthContext.Provider value={{ token, login, logout, user }}>
