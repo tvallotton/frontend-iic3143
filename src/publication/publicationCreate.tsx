@@ -25,13 +25,14 @@ const PublicationForm: React.FC = () => {
         image: "",
         booksOfInterest: "",
         bookId: "",
-    });
+    } as PublicationFormParams);
+
     const [errors, setErrors] = useState<PublicationFormErrors>({});
     const [posted, setPosted] = useState(false);
     const [searchByISBN, setSearchByISBN] = useState(false);
     const [searchParam, setSearchParam] = useState("");
     const searchParamDebounced = useDebouncedValue(searchParam, 1000);
-    const [books, setBooks] = useState <Book[]> ([]);
+    const [books, setBooks] = useState<Book[]>([]);
     const [showPopUp, setShowPopup] = useState(false);
     const [loadingSearch, setLoadingSearch] = useState(false);
     const [canEditAuthor, setCanEditAuthor] = useState(false);
@@ -51,7 +52,7 @@ const PublicationForm: React.FC = () => {
         }
         try {
             const response = await axios.post("/publications", formData);
-            if (response.status === 201){
+            if (response.status === 201) {
                 setPosted(true);
                 const publicationId = response.data.id;
                 setTimeout(() => navigate("/publications/" + publicationId), 3000);
@@ -95,7 +96,7 @@ const PublicationForm: React.FC = () => {
     const buscarLibro = async () => {
         const query = searchByISBN ? `isbn:${searchParamDebounced}` : searchParamDebounced;
         try {
-            const response = await axios.get(`https://www.googleapis.com/books/v1/volumes?q=${query}`, {headers: {"authorization": ""}});
+            const response = await axios.get(`https://www.googleapis.com/books/v1/volumes?q=${query}`, { headers: { "authorization": "" } });
             setBooks(response.data.items || []);
             setLoadingSearch(false);
             setShowPopup(true);
@@ -152,11 +153,11 @@ const PublicationForm: React.FC = () => {
                             <div>
                                 <input onFocus={() => setShowPopup(searchParam !== "")} onBlur={() => setShowPopup(false)} type="text" name="searchBook" id="searchBook" placeholder={searchByISBN ? "ISBN" : "Título"}
                                     className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                                    onChange={({target}) => {setLoadingSearch(searchParam !== ""); setSearchParam(target.value);}} value={searchParam}/>
-                                <BookOptions books={modalBooks} visible={showPopUp} onSelectBook={onSelectBook} loadingSearch={loadingSearch}/>
+                                    onChange={({ target }) => { setLoadingSearch(searchParam !== ""); setSearchParam(target.value); }} value={searchParam} />
+                                <BookOptions books={modalBooks} visible={showPopUp} onSelectBook={onSelectBook} loadingSearch={loadingSearch} />
                             </div>
                             <div className="flex items-center">
-                                <input checked={searchByISBN} onChange={() => setSearchByISBN(previous => !previous)} id="checked-checkbox" type="checkbox" value="" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
+                                <input checked={searchByISBN} onChange={() => setSearchByISBN(previous => !previous)} id="checked-checkbox" type="checkbox" value="" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
                                 <label className="ms-2 text-sm text-gray-900 dark:text-gray-300">Buscar por ISBN</label>
                             </div>
                         </div>
@@ -169,21 +170,21 @@ const PublicationForm: React.FC = () => {
                                 placeholder="Cervantes" type="text" name="author" id="author" disabled={!canEditAuthor} />
 
                             <FormTextInput label="Descripción" value={formData.description} onChange={handleChange}
-                                placeholder="Historia de un hidalgo manchego..." type="text" name="description" id="description"/>
+                                placeholder="Historia de un hidalgo manchego..." type="text" name="description" id="description" />
 
                             <FormTextInput disabled label="Géneros" value={formData.genres.join(", ")} onChange={handleChange}
-                                placeholder="Acción, Aventura, etc" type="text" name="genres" id="genres"/>
+                                placeholder="Acción, Aventura, etc" type="text" name="genres" id="genres" />
 
                             <FormTextInput label="Idioma" value={formData.language} onChange={handleChange}
-                                placeholder="Español" type="text" name="language" id="language"/>
+                                placeholder="Español" type="text" name="language" id="language" />
 
                             <TypeDropdown label="Estado" value={formData.bookState} onChange={handleChange}
-                                options={["Nuevo", "Como Nuevo", "Usado", "Muy Usado"]} name="bookState" id="bookState"/>
+                                options={["Nuevo", "Como Nuevo", "Usado", "Muy Usado"]} name="bookState" id="bookState" />
 
                             <TypeDropdown label="Tipo" value={formData.type} onChange={handleChange}
-                                options={["Permuta", "Venta/Permuta", "Venta"]} name="type" id="type"/>
+                                options={["Permuta", "Venta/Permuta", "Venta"]} name="type" id="type" />
 
-                            {(formData.type === "Venta" || formData.type === "Venta/Permuta")? (
+                            {(formData.type === "Venta" || formData.type === "Venta/Permuta") ? (
                                 <FormTextInput label="Precio" value={formData.price} onChange={handleChange}
                                     placeholder="$" type="number" name="price" id="price" error={errors.price} />) : null}
                             <PublishBookButton />

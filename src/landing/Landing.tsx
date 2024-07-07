@@ -10,6 +10,7 @@ import type { PublicationFromBackend } from "../publication/types";
 
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { useAuth } from "../auth/useAuth";
 
 const genres = [
     {
@@ -45,6 +46,7 @@ const genres = [
 ] satisfies CarouselItem[];
 
 export default function Landing() {
+    const { token } = useAuth();
     const [publications, setPublications] = useState<PublicationFromBackend[]>([]);
     const [recommendations, setRecommendations] = useState<PublicationFromBackend[]>([]);
     const carouselPublicationItems = useMemo(
@@ -58,16 +60,12 @@ export default function Landing() {
         [publications],
     );
 
-    const carouselRecommendationItems = useMemo(
-        () =>
-            recommendations.map((rec) => ({
-                title: rec.title,
-                description: rec.author,
-                image: rec.image,
-                link: `/publications/${rec.id}`,
-            })),
-        [publications],
-    );
+    const carouselRecommendationItems = useMemo(() => recommendations.map((rec) => ({
+        title: rec.title,
+        description: rec.author,
+        image: rec.image,
+        link: `/publications/${rec.id}`,
+    })), [recommendations]);
 
     const fetchPublications = useCallback(async () => {
         try {
@@ -80,6 +78,7 @@ export default function Landing() {
     }, []);
 
     const fetchRecommendations = useCallback(async () => {
+        if (!token) return;
         try {
             const response = await axios.get("/publications/recommendations/");
             const { data }: { data: PublicationFromBackend[] } = response;
@@ -123,24 +122,16 @@ export default function Landing() {
                             viewAllLink='#'
                         />
                     </div>
-                    <div className='mt-8'>
-                        <Carousel
-                            title='Publicaciones recientes'
-                            description='Descubre las últimas publicaciones'
-                            items={carouselPublicationItems}
-                            viewAllLink='/find'
-                        />
+                    <div className="mt-8">
+                        <Carousel title="Publicaciones recientes" description="Descubre las últimas publicaciones" items={carouselPublicationItems} viewAllLink="/find" />
                     </div>
-                    {recommendations.length === 0 ? (
-                        <div className='mt-8'>
-                            <Carousel
-                                title='Recomendados para tí'
-                                description='Descubre publicaciones que te pueden interesar'
-                                items={carouselRecommendationItems}
-                                viewAllLink='/find'
-                            />
-                        </div>
-                    ) : null}
+                    {
+                        recommendations.length >= 1 ?
+                            <div className="mt-8">
+                                <Carousel title="Recomendados para tí" description="Descubre publicaciones que te pueden interesar" items={carouselRecommendationItems} viewAllLink="/find" />
+                            </div>
+                            : undefined
+                    }
                 </div>
             </div>
             <Footer />
