@@ -47,11 +47,19 @@ const genres = [
 
 export default function Landing() {
     const [publications, setPublications] = useState<PublicationFromBackend[]>([]);
+    const [recommendations, setRecommendations] = useState<PublicationFromBackend[]>([]);
     const carouselPublicationItems = useMemo(() => publications.map((publication) => ({
         title: publication.title,
         description: publication.author,
         image: publication.image,
         link: `/publications/${publication.id}`
+    })), [publications]);
+
+    const carouselRecommendationItems = useMemo(() => recommendations.map((rec) => ({
+        title: rec.title,
+        description: rec.author,
+        image: rec.image,
+        link: `/publications/${rec.id}`
     })), [publications]);
 
     const fetchPublications = useCallback(async () => {
@@ -64,9 +72,20 @@ export default function Landing() {
         }
     }, []);
 
+    const fetchRecommendations = useCallback(async () => {
+        try {
+            const response = await axios.get("/publications/recommendations/");
+            const { data }: { data: PublicationFromBackend[]; } = response;
+            setRecommendations(data.slice(0, 5));
+        } catch (error) {
+            console.error("Error fetching recommendations:", error);
+        }
+    }, []);
+
     useEffect(() => {
         fetchPublications();
-    }, [fetchPublications]);
+        fetchRecommendations();
+    }, [fetchPublications, fetchRecommendations]);
 
 
     return (
@@ -93,6 +112,9 @@ export default function Landing() {
                     </div>
                     <div className="mt-8">
                         <Carousel title="Publicaciones recientes" description="Descubre las últimas publicaciones" items={carouselPublicationItems} viewAllLink="/find" />
+                    </div>
+                    <div className="mt-8">
+                        <Carousel title="Recomendados para tí" description="Descubre publicaciones que te pueden interesar" items={carouselRecommendationItems} viewAllLink="/find" />
                     </div>
                 </div>
             </div>
