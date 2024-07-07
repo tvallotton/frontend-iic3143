@@ -64,7 +64,7 @@ export default function Landing() {
         title: rec.title,
         description: rec.author,
         image: rec.image,
-        link: "/publications/recommendations/"
+        link: `/publications/${rec.id}`,
     })), [recommendations]);
 
     const fetchPublications = useCallback(async () => {
