@@ -18,7 +18,7 @@ describe("useAuth hook", () => {
         };
   
         render(
-            <AuthContext.Provider value={mockAuthValue}>
+            <AuthContext.Provider value={mockAuthValue as any}>
                 <TestComponent />
             </AuthContext.Provider>
         );
